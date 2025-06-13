@@ -2,7 +2,6 @@ function goBack() {
   window.history.back()
 }
 
-// Sample promo codes
 const promoCodes = {
   HEMAT10: { type: "percentage", value: 0.1, description: "10% discount" },
   NEWUSER: { type: "fixed", value: 15000, description: "Rp 15.000 discount" },
@@ -118,10 +117,8 @@ function updateTotalHarga() {
     }
   })
 
-  // Calculate shipping
   const ongkir = subtotal > 50000 ? 0 : 10000
 
-  // Calculate discount
   let diskon = 0
   if (appliedPromo) {
     if (appliedPromo.type === "percentage") {
@@ -133,7 +130,6 @@ function updateTotalHarga() {
 
   const total = subtotal + ongkir - diskon
 
-  // Update elements
   document.getElementById("total-items").textContent = totalItem
   document.getElementById("total-harga").textContent = `Rp ${subtotal.toLocaleString("id-ID")}`
   document.getElementById("shipping-cost").textContent = `Rp ${ongkir.toLocaleString("id-ID")}`
@@ -142,7 +138,6 @@ function updateTotalHarga() {
   document.getElementById("total-amount").textContent = `Rp ${total.toLocaleString("id-ID")}`
   document.getElementById("cart-count").textContent = totalItem
 
-  // Update checkout button state
   const checkoutBtn = document.getElementById("checkout-btn")
   if (totalItem === 0) {
     checkoutBtn.disabled = true
@@ -194,10 +189,8 @@ function checkout() {
     return
   }
 
-  // Store checkout data
   localStorage.setItem("checkout", JSON.stringify(checkedItems))
 
-  // Store applied promo if any
   if (appliedPromo) {
     localStorage.setItem("appliedPromo", JSON.stringify(appliedPromo))
   }
@@ -210,7 +203,6 @@ function checkout() {
 }
 
 function loadRecommendedProducts() {
-  // Sample recommended products
   const recommendedProducts = [
     {
       nama: "Sabun Cair Lifebuoy",
@@ -275,7 +267,6 @@ function addToCartFromRecommended(nama, harga, gambar) {
 }
 
 function showNotification(message, type = "info") {
-  // Create notification element
   const notification = document.createElement("div")
   notification.className = `notification notification-${type}`
   notification.style.cssText = `
@@ -303,7 +294,6 @@ function showNotification(message, type = "info") {
 
   document.body.appendChild(notification)
 
-  // Auto remove after 3 seconds
   setTimeout(() => {
     if (notification.parentElement) {
       notification.style.animation = "slideOutRight 0.3s ease-out"
@@ -312,7 +302,6 @@ function showNotification(message, type = "info") {
   }, 3000)
 }
 
-// Add CSS for notification animations
 const style = document.createElement("style")
 style.textContent = `
   @keyframes slideInRight {

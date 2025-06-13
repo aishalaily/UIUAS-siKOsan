@@ -49,7 +49,6 @@ function prosesPembayaran() {
   const checkoutItems = JSON.parse(localStorage.getItem("checkout")) || []
   let keranjang = JSON.parse(localStorage.getItem("keranjang")) || []
 
-  // Hapus item yang sudah dibayar dari keranjang
   keranjang = keranjang.filter((item) => {
     return !checkoutItems.some((ci) => ci.nama === item.nama && ci.variant === item.variant)
   })
@@ -57,7 +56,6 @@ function prosesPembayaran() {
   localStorage.setItem("keranjang", JSON.stringify(keranjang))
   localStorage.removeItem("checkout")
 
-  // Update cart count setelah proses pembayaran
   updateCartCount()
 
   window.location.href = "keranjang.html"

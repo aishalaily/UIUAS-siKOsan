@@ -13,14 +13,12 @@ function initializePayment() {
 }
 
 function loadOrderItems() {
-  // Check if coming from checkout or history
   const checkoutItems = JSON.parse(localStorage.getItem("checkout")) || []
   const paymentOrderId = localStorage.getItem("paymentOrderId")
 
   let items = []
 
   if (paymentOrderId) {
-    // Coming from history - load specific order
     const orders = JSON.parse(localStorage.getItem("orderHistory")) || []
     const order = orders.find((o) => o.id === paymentOrderId)
     if (order) {
@@ -28,7 +26,6 @@ function loadOrderItems() {
     }
     localStorage.removeItem("paymentOrderId")
   } else if (checkoutItems.length > 0) {
-    // Coming from checkout
     items = checkoutItems
   }
 
@@ -82,7 +79,6 @@ function calculateTotal(items) {
     document.getElementById("discount-row").style.display = "flex"
   }
 
-  // Store order data for processing
   orderData = {
     items,
     subtotal,
@@ -93,7 +89,6 @@ function calculateTotal(items) {
 }
 
 function setupEventListeners() {
-  // Shipping method change
   document.querySelectorAll('input[name="shipping"]').forEach((radio) => {
     radio.addEventListener("change", function () {
       switch (this.value) {
@@ -115,7 +110,6 @@ function setupEventListeners() {
 function applyPromo() {
   const promoCode = document.getElementById("promo-code").value.trim().toUpperCase()
 
-  // Sample promo codes
   const promoCodes = {
     HEMAT10: 0.1, // 10% discount
     NEWUSER: 15000, // Rp 15.000 discount
@@ -126,10 +120,8 @@ function applyPromo() {
     const discount = promoCodes[promoCode]
 
     if (discount < 1) {
-      // Percentage discount
       discountAmount = orderData.subtotal * discount
     } else {
-      // Fixed amount discount
       discountAmount = discount
     }
 
@@ -142,15 +134,12 @@ function applyPromo() {
 }
 
 function processPayment() {
-  // Validate form
   if (!validateForm()) {
     return
   }
 
-  // Get form data
   const formData = getFormData()
 
-  // Create order
   const orderId = generateOrderId()
   const order = {
     id: orderId,
@@ -165,15 +154,12 @@ function processPayment() {
     shippingMethod: formData.shippingMethod,
   }
 
-  // Save order to history
   const orders = JSON.parse(localStorage.getItem("orderHistory")) || []
-  orders.unshift(order) // Add to beginning
+  orders.unshift(order)
   localStorage.setItem("orderHistory", JSON.stringify(orders))
 
-  // Clear checkout items
   localStorage.removeItem("checkout")
 
-  // Remove items from cart
   const keranjang = JSON.parse(localStorage.getItem("keranjang")) || []
   const updatedKeranjang = keranjang.filter((cartItem) => {
     return !orderData.items.some(
@@ -182,7 +168,6 @@ function processPayment() {
   })
   localStorage.setItem("keranjang", JSON.stringify(updatedKeranjang))
 
-  // Show success modal
   showSuccessModal(orderId, orderData.total + orderData.shippingCost - orderData.discountAmount)
 }
 
@@ -198,7 +183,6 @@ function validateForm() {
     }
   }
 
-  // Check if payment method is selected
   const paymentMethod = document.querySelector('input[name="payment"]:checked')
   if (!paymentMethod) {
     alert("Pilih metode pembayaran")
@@ -250,5 +234,4 @@ function updateCartCount() {
   document.getElementById("cart-count").textContent = totalItems
 }
 
-// Initialize when page loads
 document.addEventListener("DOMContentLoaded", initializePayment)

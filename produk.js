@@ -38,7 +38,6 @@ function searchProduk() {
   })
 }
 
-// Fungsi untuk mengupdate jumlah item di keranjang
 function updateCartCount() {
   const keranjang = JSON.parse(localStorage.getItem("keranjang")) || []
   const totalItems = keranjang.reduce((sum, item) => sum + item.qty, 0)
@@ -47,7 +46,7 @@ function updateCartCount() {
 
 function displayProducts(products) {
   const produkGrid = document.getElementById("produkGrid")
-  produkGrid.innerHTML = "" // Clear existing products
+  produkGrid.innerHTML = "" 
 
   products.forEach((produk) => {
     const card = document.createElement("div")
@@ -340,7 +339,6 @@ const produkList = [
     gambar: "https://via.placeholder.com/200",
     varian: ["Biru", "Pink", "Hijau"],
   },
-  // Tambahkan produk lain sesuai kebutuhan
 ]
 
 const produkGrid = document.getElementById("produkGrid")
@@ -354,7 +352,6 @@ function bukaDetailProduk(produk) {
   window.location.href = "detail_produk.html"
 }
 
-// Initialize when page loads
 document.addEventListener("DOMContentLoaded", () => {
   updateCartCount()
 })

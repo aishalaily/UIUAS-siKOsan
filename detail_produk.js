@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Ambil data produk dari localStorage
   const produk = JSON.parse(localStorage.getItem("produkDetail"))
 
   if (produk) {
@@ -10,7 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const variantContainer = document.getElementById("variant-container")
 
-  // Tampilkan varian jika ada
   if (produk?.varian?.length > 0) {
     produk.varian.forEach((v, index) => {
       const btn = document.createElement("button")
@@ -24,15 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
-  // Fungsi untuk memilih varian
   function selectVariant(btn) {
-    // Hapus semua class active
     document.querySelectorAll(".variant").forEach((button) => button.classList.remove("active"))
-    // Tambahkan active pada tombol yang dipilih
     btn.classList.add("active")
   }
 
-  // Inisialisasi quantity
   let qty = 1
   const qtyDisplay = document.getElementById("qty")
 
@@ -48,7 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Tombol tambah ke keranjang
   document.getElementById("add-to-cart").addEventListener("click", () => {
     const nama = document.getElementById("detail-nama").textContent
     const harga = document.getElementById("detail-harga").textContent.replace("Rp ", "")
@@ -65,7 +58,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const keranjang = JSON.parse(localStorage.getItem("keranjang")) || []
 
-    // Cek produk sama dengan varian sama
     const index = keranjang.findIndex(
       (item) => item.nama === produkKeranjang.nama && item.variant === produkKeranjang.variant,
     )
@@ -80,16 +72,13 @@ document.addEventListener("DOMContentLoaded", () => {
     updateCartCount()
   })
 
-  // Update cart count saat halaman dimuat
   updateCartCount()
 })
 
-// Fungsi untuk kembali ke halaman sebelumnya
 function goBack() {
   window.history.back()
 }
 
-// Fungsi untuk mengupdate jumlah item di keranjang
 function updateCartCount() {
   const keranjang = JSON.parse(localStorage.getItem("keranjang")) || []
   const totalItems = keranjang.reduce((sum, item) => sum + item.qty, 0)
