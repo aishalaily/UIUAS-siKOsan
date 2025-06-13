@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pembayaran - siKOsan</title>
+  <link rel="stylesheet" href="css/pembayaran.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <button onclick="goBack()" class="back-button">Kembali</button>
+      <div class="nav-logo">siKOsan</div>
+      <ul class="nav-menu">
+        <li><a href="landing.html">Beranda</a></li>
+        <li><a href="artikel.html">Artikel</a></li>
+        <li><a href="produk.html">Produk</a></li>
+        <li><a href="keranjang.html">Keranjang <span id="cart-count">0</span></a></li>
+        <li><a href="history.html">History</a></li>
+      </ul>
+      <div class="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="payment-container">
+    <div class="container">
+      <h2>Pembayaran</h2>
+      
+      <div class="payment-content">
+        <!-- Payment Form -->
+        <div class="payment-form">
+          <!-- Shipping Address -->
+          <div class="form-section">
+            <h3><i class="fas fa-map-marker-alt"></i> Alamat Pengiriman</h3>
+            <form id="shipping-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="nama-lengkap">Nama Lengkap *</label>
+                  <input type="text" id="nama-lengkap" required>
+                </div>
+                <div class="form-group">
+                  <label for="nomor-hp">Nomor HP *</label>
+                  <input type="tel" id="nomor-hp" required>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="alamat">Alamat Lengkap *</label>
+                <textarea id="alamat" rows="3" required placeholder="Nama jalan, nomor rumah/kos, RT/RW"></textarea>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="kota">Kota *</label>
+                  <select id="kota" required>
+                    <option value="">Pilih Kota</option>
+                    <option value="jakarta">Jakarta</option>
+                    <option value="bandung">Bandung</option>
+                    <option value="surabaya">Surabaya</option>
+                    <option value="yogyakarta">Yogyakarta</option>
+                    <option value="semarang">Semarang</option>
+                    <option value="medan">Medan</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="kode-pos">Kode Pos *</label>
+                  <input type="text" id="kode-pos" required>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="catatan">Catatan untuk Kurir (Opsional)</label>
+                <textarea id="catatan" rows="2" placeholder="Contoh: Rumah cat hijau, sebelah warung"></textarea>
+              </div>
+            </form>
+          </div>
+
+          <!-- Shipping Method -->
+          <div class="form-section">
+            <h3><i class="fas fa-truck"></i> Metode Pengiriman</h3>
+            <div class="shipping-options">
+              <div class="shipping-option">
+                <input type="radio" id="reguler" name="shipping" value="reguler" checked>
+                <label for="reguler">
+                  <div class="option-info">
+                    <div class="option-name">Reguler (2-3 hari)</div>
+                    <div class="option-price">Rp 10.000</div>
+                  </div>
+                </label>
+              </div>
+              <div class="shipping-option">
+                <input type="radio" id="express" name="shipping" value="express">
+                <label for="express">
+                  <div class="option-info">
+                    <div class="option-name">Express (1-2 hari)</div>
+                    <div class="option-price">Rp 20.000</div>
+                  </div>
+                </label>
+              </div>
+              <div class="shipping-option">
+                <input type="radio" id="sameday" name="shipping" value="sameday">
+                <label for="sameday">
+                  <div class="option-info">
+                    <div class="option-name">Same Day (Hari ini)</div>
+                    <div class="option-price">Rp 35.000</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Method -->
+          <div class="form-section">
+            <h3><i class="fas fa-credit-card"></i> Metode Pembayaran</h3>
+            <div class="payment-methods">
+              <!-- E-Wallet -->
+              <div class="payment-category">
+                <h4>E-Wallet</h4>
+                <div class="payment-options">
+                  <div class="payment-option">
+                    <input type="radio" id="gopay" name="payment" value="gopay">
+                    <label for="gopay">
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" alt="GoPay">
+                      <span>GoPay</span>
+                    </label>
+                  </div>
+                  <div class="payment-option">
+                    <input type="radio" id="ovo" name="payment" value="ovo">
+                    <label for="ovo">
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" alt="OVO">
+                      <span>OVO</span>
+                    </label>
+                  </div>
+                  <div class="payment-option">
+                    <input type="radio" id="dana" name="payment" value="dana">
+                    <label for="dana">
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA">
+                      <span>DANA</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bank Transfer -->
+              <div class="payment-category">
+                <h4>Transfer Bank</h4>
+                <div class="payment-options">
+                  <div class="payment-option">
+                    <input type="radio" id="bca" name="payment" value="bca">
+                    <label for="bca">
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA">
+                      <span>BCA</span>
+                    </label>
+                  </div>
+                  <div class="payment-option">
+                    <input type="radio" id="mandiri" name="payment" value="mandiri">
+                    <label for="mandiri">
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Bank_Mandiri_logo_2016.svg" alt="Mandiri">
+                      <span>Mandiri</span>
+                    </label>
+                  </div>
+                  <div class="payment-option">
+                    <input type="radio" id="bni" name="payment" value="bni">
+                    <label for="bni">
+                      <img src="https://upload.wikimedia.org/wikipedia/id/5/55/BNI_logo.svg" alt="BNI">
+                      <span>BNI</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- COD -->
+              <div class="payment-category">
+                <h4>Bayar di Tempat</h4>
+                <div class="payment-options">
+                  <div class="payment-option">
+                    <input type="radio" id="cod" name="payment" value="cod" checked>
+                    <label for="cod">
+                      <i class="fas fa-money-bill-wave"></i>
+                      <span>Cash on Delivery (COD)</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="order-summary">
+          <div class="summary-card">
+            <h3>Ringkasan Pesanan</h3>
+            
+            <div class="order-items" id="order-items">
+              <!-- Items will be loaded by JavaScript -->
+            </div>
+            
+            <div class="promo-section">
+              <div class="promo-input">
+                <input type="text" id="promo-code" placeholder="Kode promo">
+                <button onclick="applyPromo()">Gunakan</button>
+              </div>
+            </div>
+            
+            <div class="summary-details">
+              <div class="summary-row">
+                <span>Subtotal (<span id="total-items">0</span> barang)</span>
+                <span id="subtotal">Rp 0</span>
+              </div>
+              <div class="summary-row">
+                <span>Ongkos Kirim</span>
+                <span id="shipping-cost">Rp 10.000</span>
+              </div>
+              <div class="summary-row discount-row" id="discount-row" style="display: none;">
+                <span>Diskon</span>
+                <span id="discount-amount">-Rp 0</span>
+              </div>
+              <div class="summary-row total-row">
+                <span>Total Pembayaran</span>
+                <span id="total-payment">Rp 0</span>
+              </div>
+            </div>
+            
+            <button class="btn-pay" onclick="processPayment()">
+              <i class="fas fa-lock"></i>
+              Bayar Sekarang
+            </button>
+            
+            <div class="security-info">
+              <i class="fas fa-shield-alt"></i>
+              <span>Pembayaran aman dan terlindungi</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Payment Success Modal -->
+  <div class="modal" id="success-modal">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="success-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <h3>Pembayaran Berhasil!</h3>
+        <p>Terima kasih telah berbelanja di siKOsan. Pesanan Anda sedang diproses.</p>
+        <div class="order-info">
+          <p><strong>ID Pesanan:</strong> <span id="order-id"></span></p>
+          <p><strong>Total:</strong> <span id="order-total"></span></p>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" onclick="goToHistory()">Lihat Pesanan</button>
+          <button class="btn btn-secondary" onclick="continueShopping()">Lanjut Belanja</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>siKOsan</h3>
+          <p>Solusi belanja praktis untuk anak kos di seluruh Indonesia</p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="produk.html">Produk</a></li>
+            <li><a href="artikel.html">Artikel</a></li>
+            <li><a href="keranjang.html">Keranjang</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Kontak</h4>
+          <p><i class="fas fa-phone"></i> +62 812-3456-7890</p>
+          <p><i class="fas fa-envelope"></i> info@siKOsan.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 siKOsan. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="pembayaran.js"></script>
+</body>
+</html>

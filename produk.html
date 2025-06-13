@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Katalog Produk - siKOsan</title>
+  <link rel="stylesheet" href="css/produk.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">siKOsan</div>
+      <ul class="nav-menu">
+        <li><a href="landing.html">Beranda</a></li>
+        <li><a href="artikel.html">Artikel</a></li>
+        <li><a href="produk.html" class="active">Produk</a></li>
+        <li><a href="keranjang.html">Keranjang <span id="cart-count">0</span></a></li>
+        <li><a href="history.html">History</a></li>
+      </ul>
+      <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <h2 class="section-title">Katalog Produk</h2>
+
+    <!-- Filter + Search -->
+    <div class="filter-search">
+      <div class="search-bar">
+          <input type="text" id="product-search" placeholder="Cari produk...">
+          <button><i class="fas fa-search"></i></button>
+      </div>
+      <div class="filter-buttons">
+        <button class="category-filter active" onclick="filterKategori('all')">Semua</button>
+        <button class="category-filter" onclick="filterKategori('dapur')">Peralatan Dapur</button>
+        <button class="category-filter" onclick="filterKategori('mandi')">Peralatan Mandi</button>
+        <button class="category-filter" onclick="filterKategori('kebersihan')">Peralatan Kebersihan</button>
+        <button class="category-filter" onclick="filterKategori('elektronik')">Elektronik</button>
+        <button class="category-filter" onclick="filterKategori('lucu')">Barang Lucu</button>
+        <button class="category-filter" onclick="filterKategori('tidur')">Perlengkapan Tidur</button>
+        <button class="category-filter" onclick="filterKategori('dekorasi')">Dekorasi Kamar</button>
+      </div>
+    </div>
+
+
+    <!-- Daftar Produk -->
+    <div id="produkGrid" class="produk-grid">
+      <!-- Products will be loaded by JavaScript -->
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>siKOsan</h3>
+                <p>Solusi belanja praktis untuk anak kos di seluruh Indonesia</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="katalog.html">Produk</a></li>
+                    <li><a href="artikel.html">Artikel</a></li>
+                    <li><a href="keranjang.html">Keranjang</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Kontak</h4>
+                <p><i class="fas fa-phone"></i> +62 812-3456-7890</p>
+                <p><i class="fas fa-envelope"></i> info@siKOsan.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 siKOsan. All rights reserved.</p>
+        </div>
+    </div>
+  </footer>
+
+  <script src="produk.js"></script>
+</body>
+</html>

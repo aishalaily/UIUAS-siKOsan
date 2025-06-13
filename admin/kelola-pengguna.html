@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Pengguna - siKOsan Admin</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="admin-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Admin Navigation -->
+    <nav class="admin-navbar">
+        <div class="admin-nav-container">
+            <div class="admin-logo">
+                <h2>siKOsan Admin</h2>
+            </div>
+            <div class="admin-user">
+                <span>Admin User</span>
+                <button class="btn btn-secondary btn-small" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <ul class="admin-menu">
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="kelola-artikel.html"><i class="fas fa-newspaper"></i> Kelola Artikel</a></li>
+                <li><a href="kelola-produk.html"><i class="fas fa-box"></i> Kelola Produk</a></li>
+                <li><a href="kelola-pengguna.html" class="active"><i class="fas fa-users"></i> Kelola Pengguna</a></li>
+                <li><a href="kelola-transaksi.html"><i class="fas fa-shopping-cart"></i> Kelola Transaksi</a></li>
+                <li><a href="../landing.html"><i class="fas fa-globe"></i> Lihat Website</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <div class="admin-header">
+                <h1>Kelola Pengguna</h1>
+                <button class="btn btn-primary" onclick="showAddUserModal()">
+                    <i class="fas fa-plus"></i> Tambah Pengguna
+                </button>
+            </div>
+
+            <!-- User Stats -->
+            <div class="user-stats">
+                <div class="stat-item">
+                    <i class="fas fa-users"></i>
+                    <div>
+                        <h3 id="total-users-count">0</h3>
+                        <p>Total Pengguna</p>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-user-check"></i>
+                    <div>
+                        <h3 id="active-users-count">0</h3>
+                        <p>Pengguna Aktif</p>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-user-plus"></i>
+                    <div>
+                        <h3 id="new-users-count">0</h3>
+                        <p>Pengguna Baru (30 hari)</p>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-user-shield"></i>
+                    <div>
+                        <h3 id="admin-users-count">0</h3>
+                        <p>Admin</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters and Search -->
+            <div class="admin-filters">
+                <div class="filter-group">
+                    <input type="text" id="user-search" placeholder="Cari pengguna..." class="search-input">
+                    <button class="btn btn-secondary" onclick="searchUsers()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="filter-group">
+                    <select id="role-filter" onchange="filterUsers()">
+                        <option value="">Semua Role</option>
+                        <option value="admin">Admin</option>
+                        <option value="customer">Customer</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <select id="status-filter" onchange="filterUsers()">
+                        <option value="">Semua Status</option>
+                        <option value="active">Aktif</option>
+                        <option value="inactive">Nonaktif</option>
+                        <option value="banned">Banned</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <select id="date-filter" onchange="filterUsers()">
+                        <option value="">Semua Waktu</option>
+                        <option value="today">Hari Ini</option>
+                        <option value="week">Minggu Ini</option>
+                        <option value="month">Bulan Ini</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Users Table -->
+            <div class="table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" id="select-all-users" onchange="toggleSelectAll('users')">
+                            </th>
+                            <th>Avatar</th>
+                            <th>Nama</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Bergabung</th>
+                            <th>Last Login</th>
+                            <th>Total Orders</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body">
+                        <!-- Data will be loaded by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Bulk Actions -->
+            <div class="bulk-actions" id="bulk-actions-users" style="display: none;">
+                <span id="selected-count-users">0 pengguna dipilih</span>
+                <button class="btn btn-success" onclick="bulkActivateUsers()">Aktifkan</button>
+                <button class="btn btn-warning" onclick="bulkDeactivateUsers()">Nonaktifkan</button>
+                <button class="btn btn-danger" onclick="bulkBanUsers()">Ban</button>
+                <button class="btn btn-info" onclick="bulkExportUsers()">Export</button>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="users-pagination">
+                <!-- Pagination will be generated by JavaScript -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit User Modal -->
+    <div class="modal" id="user-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="user-modal-title">Tambah Pengguna</h3>
+                <button class="close-modal" onclick="closeUserModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="user-form">
+                    <input type="hidden" id="user-id">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="user-name">Nama Lengkap *</label>
+                            <input type="text" id="user-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="user-email">Email *</label>
+                            <input type="email" id="user-email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="user-phone">Nomor Telepon</label>
+                            <input type="tel" id="user-phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="user-role">Role *</label>
+                            <select id="user-role" required>
+                                <option value="customer">Customer</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="password-group">
+                        <label for="user-password">Password *</label>
+                        <input type="password" id="user-password" required>
+                        <small>Minimal 8 karakter</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="user-address">Alamat</label>
+                        <textarea id="user-address" rows="3" placeholder="Alamat lengkap..."></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="user-city">Kota</label>
+                            <input type="text" id="user-city">
+                        </div>
+                        <div class="form-group">
+                            <label for="user-status">Status</label>
+                            <select id="user-status">
+                                <option value="active">Aktif</option>
+                                <option value="inactive">Nonaktif</option>
+                                <option value="banned">Banned</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeUserModal()">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan Pengguna</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Detail Modal -->
+    <div class="modal" id="user-detail-modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>Detail Pengguna</h3>
+                <button class="close-modal" onclick="closeUserDetailModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="user-detail-content">
+                    <!-- User details will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ban User Modal -->
+    <div class="modal" id="ban-user-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Ban Pengguna</h3>
+                <button class="close-modal" onclick="closeBanModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="ban-form">
+                    <div class="form-group">
+                        <label for="ban-reason">Alasan Ban *</label>
+                        <textarea id="ban-reason" rows="3" required placeholder="Jelaskan alasan ban..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="ban-duration">Durasi Ban</label>
+                        <select id="ban-duration">
+                            <option value="permanent">Permanen</option>
+                            <option value="7">7 Hari</option>
+                            <option value="30">30 Hari</option>
+                            <option value="90">90 Hari</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeBanModal()">Batal</button>
+                        <button type="submit" class="btn btn-danger">Ban Pengguna</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+    <script src="admin-script.js"></script>
+</body>
+</html>

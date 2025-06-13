@@ -1,0 +1,360 @@
+function goBack() {
+  window.history.back()
+}
+
+function filterKategori(kategori) {
+  const cards = document.querySelectorAll(".produk-card")
+  cards.forEach((card) => {
+    if (kategori === "all") {
+      card.classList.remove("hidden")
+    } else {
+      if (card.classList.contains(kategori)) {
+        card.classList.remove("hidden")
+      } else {
+        card.classList.add("hidden")
+      }
+    }
+  })
+
+  document.querySelectorAll(".category-filter").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      document.querySelectorAll(".category-filter").forEach((b) => b.classList.remove("active"))
+      e.target.classList.add("active")
+
+      const category = e.target.dataset.category
+      const filteredProducts =
+        category === "all" ? produkList : produkList.filter((product) => product.kategori === category)
+      displayProducts(filteredProducts)
+    })
+  })
+}
+
+function searchProduk() {
+  const input = document.getElementById("searchInput").value.toLowerCase()
+  const cards = document.querySelectorAll(".produk-card")
+  cards.forEach((card) => {
+    const namaProduk = card.querySelector("h4").textContent.toLowerCase()
+    card.style.display = namaProduk.includes(input) ? "block" : "none"
+  })
+}
+
+// Fungsi untuk mengupdate jumlah item di keranjang
+function updateCartCount() {
+  const keranjang = JSON.parse(localStorage.getItem("keranjang")) || []
+  const totalItems = keranjang.reduce((sum, item) => sum + item.qty, 0)
+  document.getElementById("cart-count").textContent = totalItems
+}
+
+function displayProducts(products) {
+  const produkGrid = document.getElementById("produkGrid")
+  produkGrid.innerHTML = "" // Clear existing products
+
+  products.forEach((produk) => {
+    const card = document.createElement("div")
+    card.className = `produk-card ${produk.kategori}`
+    card.onclick = () => bukaDetailProduk(produk)
+
+    card.innerHTML = `
+      <img src="${produk.gambar}" alt="${produk.nama}">
+      <h4>${produk.nama}</h4>
+      ${produk.hargaDiskon ? `<p class="harga-diskon">Rp ${produk.hargaDiskon.toLocaleString()}</p>` : ""}
+      <p class="harga">Rp ${produk.harga.toLocaleString()}</p>
+    `
+
+    produkGrid.appendChild(card)
+  })
+}
+
+const produkList = [
+  {
+    nama: "Panci Mini",
+    kategori: "dapur",
+    gambar: "https://via.placeholder.com/200",
+    hargaDiskon: 59000,
+    harga: 49000,
+    varian: ["Kecil", "Sedang", "Besar"],
+  },
+  {
+    nama: "Kompor Portable",
+    kategori: "dapur",
+    gambar: "https://via.placeholder.com/200",
+    harga: 149000,
+    varian: ["Mini", "Reguler"],
+  },
+  {
+    nama: "Sabun Cair Lifebuoy",
+    kategori: "mandi",
+    gambar: "https://i.pinimg.com/736x/54/ed/56/54ed569897aa9fe19fff8726d244fcdf.jpg",
+    harga: 25000,
+    varian: ["250ml", "500ml"],
+  },
+  {
+    nama: "Sabun Cair Lux",
+    kategori: "mandi",
+    gambar: "https://i.pinimg.com/736x/41/1d/50/411d504f8c45555ab6f40d6103ea03e6.jpg",
+    harga: 17000,
+    varian: ["200ml", "400ml"],
+  },
+  {
+    nama: "Sabun Cair Dove",
+    kategori: "mandi",
+    gambar: "https://i.pinimg.com/736x/74/80/d2/7480d2a3cfb7229bace7351440d73d1e.jpg",
+    harga: 20000,
+    varian: ["300ml"],
+  },
+  {
+    nama: "Shampoo Sunslik",
+    kategori: "mandi",
+    gambar: "https://i.pinimg.com/736x/db/8f/e1/db8fe165605c4a8881eed59f4942fe9a.jpg",
+    harga: 45000,
+    varian: ["160ml", "320ml"],
+  },
+  {
+    nama: "Shampoo Head&Shoulders",
+    kategori: "mandi",
+    gambar: "https://i.pinimg.com/736x/aa/8a/cf/aa8acfe0bc815ece98555914056499b5.jpg",
+    harga: 60000,
+    varian: ["400ml", "800ml"],
+  },
+  {
+    nama: "Handuk",
+    kategori: "mandi",
+    gambar: "https://i.pinimg.com/736x/29/3e/d0/293ed07cf5a69b908bd6f2b141dc7697.jpg",
+    harga: 35000,
+    varian: ["besar", "kecil"],
+  },
+  {
+    nama: "Sikat Gigi",
+    kategori: "mandi",
+    gambar: "https://i.pinimg.com/736x/2e/e3/65/2ee36560d2a68999f5d06e8cb9705af8.jpg",
+    harga: 18000,
+    varian: [],
+  },
+  {
+    nama: "Pasta Gigi",
+    kategori: "mandi",
+    gambar: "https://i.pinimg.com/736x/9d/5d/c9/9d5dc911c7b5e92cda68d568fec37faf.jpg",
+    harga: 20000,
+    varian: ["besar", "sedang", "kecil"],
+  },
+  {
+    nama: "Kemoceng 2.8m",
+    kategori: "kebersihan",
+    gambar: "https://i.pinimg.com/736x/d0/0e/f3/d00ef3591b727f12d1e5dd1cbf55ac01.jpg",
+    harga: 55000,
+    varian: ["2.8 meter"],
+  },
+  {
+    nama: "Sapu Mini",
+    kategori: "kebersihan",
+    harga: 15000,
+    gambar: "https://i.pinimg.com/736x/b3/03/e3/b303e3464ecdc0911b0b51d086bd7e15.jpg",
+    varian: ["Biru", "Merah", "Hijau"],
+  },
+  {
+    nama: "Sapu",
+    kategori: "kebersihan",
+    harga: 35000,
+    gambar: "https://i.pinimg.com/736x/45/9a/e2/459ae26b8211cfbece6ca69714547446.jpg",
+    varian: ["Kecil", "Besar"],
+  },
+  {
+    nama: "Tempat Sampah",
+    kategori: "kebersihan",
+    harga: 45000,
+    gambar: "https://i.pinimg.com/736x/1e/ec/4c/1eec4c63493701752a577f9d51b9f5cc.jpg",
+    varian: ["Kecil", "Sedang", "Besar"],
+  },
+  {
+    nama: "Pengharum Ruangan Otomatis",
+    kategori: "kebersihan",
+    gambar: "https://i.pinimg.com/736x/3a/fb/d4/3afbd4689be2c37b25b607a3048c66e3.jpg",
+    harga: 65000,
+    varian: ["Lavender", "Lemon", "Ocean"],
+  },
+  {
+    nama: "Pengharum Ruangan",
+    kategori: "kebersihan",
+    gambar: "https://i.pinimg.com/736x/8b/86/9a/8b869ac3c2b609595d81d3763c0d6af3.jpg",
+    harga: 63000,
+    varian: ["Botol Kecil", "Botol Besar"],
+  },
+  {
+    nama: "Pengki Sampah",
+    kategori: "kebersihan",
+    harga: 62000,
+    gambar: "https://i.pinimg.com/736x/1f/8b/20/1f8b20d9b9605ad2b1d972405e80c217.jpg",
+    varian: [],
+  },
+  {
+    nama: "Kain Lap",
+    kategori: "kebersihan",
+    gambar: "https://i.pinimg.com/736x/76/85/05/76850574c6ced8292480de5ed77dc778.jpg",
+    harga: 62000,
+    varian: ["satuan", "lusinan"],
+  },
+  {
+    nama: "Sikat Toilet",
+    kategori: "kebersihan",
+    harga: 28000,
+    gambar: "https://i.pinimg.com/736x/e8/c9/45/e8c94561ef44411dad2d31c97b0876d8.jpg",
+    varian: [],
+  },
+  {
+    nama: "Tempat Sabun Batang",
+    kategori: "kebersihan",
+    harga: 40000,
+    gambar: "https://i.pinimg.com/736x/f8/14/b8/f814b8304266c05ea74de0e34b4df05b.jpg",
+    varian: [],
+  },
+  {
+    nama: "Penebah Kasur",
+    kategori: "kebersihan",
+    harga: 10000,
+    gambar: "https://i.pinimg.com/736x/ed/7d/81/ed7d81f9198d9f95fd05bcf3efbc69fc.jpg",
+    varian: [],
+  },
+  {
+    nama: "Lampu Tidur Aesthetic",
+    kategori: "dekorasi",
+    harga: 39000,
+    gambar: "https://via.placeholder.com/200",
+    varian: ["Putih Hangat", "RGB"],
+  },
+  {
+    nama: "Poster Dinding",
+    kategori: "dekorasi",
+    harga: 12000,
+    gambar: "https://via.placeholder.com/200",
+    varian: ["A4", "A3"],
+  },
+  {
+    nama: "Lampu",
+    kategori: "elektronik",
+    harga: 25000,
+    gambar: "https://i.pinimg.com/736x/c2/1f/1a/c21f1a64528d4625a355a8743abc525c.jpg",
+    varian: ["LED", "Neon"],
+  },
+  {
+    nama: "Panci Listrik",
+    kategori: "elektronik",
+    gambar: "https://i.pinimg.com/736x/b3/0a/1a/b30a1a165e3f7c7b6b0cfdea9bb4bc76.jpg",
+    harga: 125000,
+    varian: ["Pink", "Putih"],
+  },
+  {
+    nama: "Setrika",
+    kategori: "elektronik",
+    harga: 200000,
+    gambar: "https://i.pinimg.com/736x/71/de/92/71de92a3164df5b15fd9eb74e3bfb819.jpg",
+    varian: ["Uap", "Biasa"],
+  },
+  {
+    nama: "Catokan Rambut",
+    kategori: "elektronik",
+    gambar: "https://i.pinimg.com/736x/1f/55/d0/1f55d0021e5335e7fd6d2279bb5020c1.jpg",
+    harga: 200000,
+    varian: ["Mini", "Professional"],
+  },
+  {
+    nama: "Hairdryer",
+    kategori: "elektronik",
+    gambar: "https://i.pinimg.com/736x/e9/f6/63/e9f663861af5ac6de17ded8b4e79a113.jpg",
+    harga: 250000,
+    varian: ["Ringan", "Besar"],
+  },
+  {
+    nama: "Kabel Roll",
+    kategori: "elektronik",
+    gambar: "https://i.pinimg.com/736x/83/2d/7e/832d7e648f7280bd59799b79fed6ae5f.jpg",
+    harga: 45000,
+    varian: ["3M", "5M", "10M"],
+  },
+  {
+    nama: "Stop Kontak T",
+    kategori: "elektronik",
+    gambar: "https://i.pinimg.com/736x/d2/9e/7a/d29e7a3e094cc2e0192ba3c85a5b8178.jpg",
+    harga: 15000,
+    varian: ["2 Lubang", "3 Lubang"],
+  },
+  {
+    nama: "Kipas Portable",
+    kategori: "elektronik",
+    harga: 75000,
+    gambar: "https://i.pinimg.com/736x/66/b0/b7/66b0b72128d9b9c3e5757edf43ed2f46.jpg",
+    varian: ["Biru", "Putih"],
+  },
+  {
+    nama: "Kipas Angin",
+    kategori: "elektronik",
+    harga: 105000,
+    gambar: "https://i.pinimg.com/736x/a8/77/31/a87731446a54e193992695bf5400dd51.jpg",
+    varian: ["Meja", "Dinding"],
+  },
+  {
+    nama: "Sprei Kasur",
+    kategori: "tidur",
+    harga: 60000,
+    gambar: "https://i.pinimg.com/736x/c1/a8/25/c1a825c60d4c3e29228ef27c055c760b.jpg",
+    varian: ["Single", "Queen", "King"],
+  },
+  {
+    nama: "Selimut",
+    kategori: "tidur",
+    harga: 70000,
+    gambar: "https://i.pinimg.com/736x/16/e5/fa/16e5fa804f70e7fe2c093c1235566cc2.jpg",
+    varian: ["Tipis", "Tebal"],
+  },
+  {
+    kategori: "tidur",
+    nama: "Bantal Guling",
+    harga: 12000,
+    gambar: "https://i.pinimg.com/736x/1c/d5/ad/1cd5adfd2b931a95159afef47344403b.jpg",
+    varian: ["Kecil", "Sedang", "Besar"],
+  },
+  {
+    kategori: "tidur",
+    nama: "Lampu Tidur Lucu",
+    harga: 49000,
+    gambar: "https://i.pinimg.com/736x/e1/dd/6e/e1dd6eab5cabec59bdd3797e53b4230a.jpg",
+    varian: ["Putih", "Kuning", "RGB"],
+  },
+  {
+    kategori: "tidur",
+    nama: "Lampu Tidur",
+    harga: 35000,
+    gambar: "https://i.pinimg.com/736x/1f/5f/73/1f5f73d6bff05e2efacf2adf08fd52c5.jpg",
+    varian: ["Bulat", "Kotak"],
+  },
+  {
+    kategori: "tidur",
+    nama: "Jam Alarm",
+    harga: 50000,
+    gambar: "https://i.pinimg.com/736x/0f/3c/ca/0f3cca3dca988a0f84d15d2be4ea0092.jpg",
+    varian: ["Digital", "Analog"],
+  },
+  {
+    kategori: "lucu",
+    nama: "Kipas Portable",
+    harga: 12000,
+    gambar: "https://via.placeholder.com/200",
+    varian: ["Biru", "Pink", "Hijau"],
+  },
+  // Tambahkan produk lain sesuai kebutuhan
+]
+
+const produkGrid = document.getElementById("produkGrid")
+
+displayProducts(produkList)
+
+function bukaDetailProduk(produk) {
+  console.log("Detail Produk:", { produk })
+
+  localStorage.setItem("produkDetail", JSON.stringify(produk))
+  window.location.href = "detail_produk.html"
+}
+
+// Initialize when page loads
+document.addEventListener("DOMContentLoaded", () => {
+  updateCartCount()
+})

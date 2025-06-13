@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Keranjang Belanja - siKOsan</title>
+  <link rel="stylesheet" href="css/keranjang.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <!-- navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <button onclick="goBack()" class="back-button">
+        <i class="fas fa-arrow-left"></i> Kembali
+      </button>
+      <div class="nav-logo">siKOsan</div>
+      <ul class="nav-menu">
+        <li><a href="landing.html">Beranda</a></li>
+        <li><a href="artikel.html">Artikel</a></li>
+        <li><a href="produk.html">Produk</a></li>
+        <li><a href="keranjang.html" class="active">Keranjang <span id="cart-count">0</span></a></li>
+        <li><a href="history.html">History</a></li>
+      </ul>
+      <div class="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Cart Content -->
+  <main class="keranjang-container">
+    <div class="container">
+      <h2><i class="fas fa-shopping-cart"></i> Keranjang Belanja</h2>
+
+      <!-- Empty Cart -->
+      <div class="empty-cart" id="empty-cart" style="display: none;">
+        <div class="empty-cart-icon">
+          <i class="fas fa-shopping-cart"></i>
+        </div>
+        <h3>Keranjang Belanja Kosong</h3>
+        <p>Yuk mulai belanja kebutuhan kos kamu! Temukan produk-produk berkualitas dengan harga terjangkau.</p>
+        <a href="produk.html" class="btn btn-primary btn-large">
+          <i class="fas fa-shopping-bag"></i>
+          Mulai Belanja
+        </a>
+      </div>
+
+      <div class="cart-content">
+        <!-- Cart Items -->
+        <div class="cart-items" id="cart-list">
+          <!-- Items will be rendered via JS -->
+        </div>
+
+        <!-- Cart Summary -->
+        <div class="cart-summary" id="cart-summary">
+          <div class="summary-card">
+            <h3><i class="fas fa-receipt"></i> Ringkasan Belanja</h3>
+            
+            <div class="summary-details">
+              <div class="summary-row">
+                <span><i class="fas fa-box"></i> Subtotal (<span id="total-items">0</span> barang)</span>
+                <span id="total-harga">Rp 0</span>
+              </div>
+              <div class="summary-row">
+                <span><i class="fas fa-truck"></i> Ongkos Kirim</span>
+                <span id="shipping-cost">Rp 0</span>
+              </div>
+              <div class="summary-row discount-row" id="discount-row" style="display: none;">
+                <span><i class="fas fa-tag"></i> Diskon</span>
+                <span id="discount-amount">-Rp 0</span>
+              </div>
+              <div class="summary-row total-row">
+                <span><i class="fas fa-calculator"></i> Total Pembayaran</span>
+                <span id="total-amount">Rp 0</span>
+              </div>
+            </div>
+
+            <div class="shipping-info">
+              <i class="fas fa-info-circle"></i>
+              <span>Gratis ongkir untuk pembelian di atas Rp 50.000</span>
+            </div>
+
+            <!-- Promo Code -->
+            <div class="promo-section">
+              <div class="promo-input">
+                <input type="text" id="promo-code" placeholder="Masukkan kode promo">
+                <button onclick="applyPromo()">
+                  <i class="fas fa-tag"></i>
+                  Gunakan
+                </button>
+              </div>
+            </div>
+            
+            <div class="cart-actions">
+              <button onclick="hapusSemua()" class="btn btn-delete">
+                <i class="fas fa-trash-alt"></i>
+                Hapus Semua
+              </button>
+              <button id="checkout-btn" onclick="checkout()" class="btn btn-primary btn-large">
+                <i class="fas fa-credit-card"></i>
+                Lanjut ke Pembayaran
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recommended Products -->
+      <div class="recommended-products" id="recommended-section" style="display: none;">
+        <h3><i class="fas fa-heart"></i> Mungkin Kamu Suka</h3>
+        <div class="products-grid" id="recommended-products">
+          <!-- Produk rekomendasi akan dimuat dengan JS -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>siKOsan</h3>
+          <p>Solusi belanja praktis untuk anak kos di seluruh Indonesia</p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="produk.html">Produk</a></li>
+            <li><a href="artikel.html">Artikel</a></li>
+            <li><a href="keranjang.html">Keranjang</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Kontak</h4>
+          <p><i class="fas fa-phone"></i> +62 812-3456-7890</p>
+          <p><i class="fas fa-envelope"></i> info@siKOsan.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 siKOsan. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="keranjang.js"></script>
+</body>
+</html>

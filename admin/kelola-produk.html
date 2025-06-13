@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Produk - siKOsan Admin</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="admin-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Admin Navigation -->
+    <nav class="admin-navbar">
+        <div class="admin-nav-container">
+            <div class="admin-logo">
+                <h2>siKOsan Admin</h2>
+            </div>
+            <div class="admin-user">
+                <span>Admin User</span>
+                <button class="btn btn-secondary btn-small" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <ul class="admin-menu">
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="kelola-artikel.html"><i class="fas fa-newspaper"></i> Kelola Artikel</a></li>
+                <li><a href="kelola-produk.html" class="active"><i class="fas fa-box"></i> Kelola Produk</a></li>
+                <li><a href="kelola-pengguna.html"><i class="fas fa-users"></i> Kelola Pengguna</a></li>
+                <li><a href="kelola-transaksi.html"><i class="fas fa-shopping-cart"></i> Kelola Transaksi</a></li>
+                <li><a href="../landing.html"><i class="fas fa-globe"></i> Lihat Website</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <div class="admin-header">
+                <h1>Kelola Produk</h1>
+                <button class="btn btn-primary" onclick="showAddProductModal()">
+                    <i class="fas fa-plus"></i> Tambah Produk
+                </button>
+            </div>
+
+            <!-- Filters and Search -->
+            <div class="admin-filters">
+                <div class="filter-group">
+                    <input type="text" id="product-search" placeholder="Cari produk..." class="search-input">
+                    <button class="btn btn-secondary" onclick="searchProducts()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="filter-group">
+                    <select id="category-filter" onchange="filterProducts()">
+                        <option value="">Semua Kategori</option>
+                        <option value="mandi">Perlengkapan Mandi</option>
+                        <option value="cuci">Perlengkapan Cuci</option>
+                        <option value="kebersihan">Kebersihan</option>
+                        <option value="alat-tulis">Alat Tulis</option>
+                        <option value="elektronik">Elektronik</option>
+                        <option value="pakaian">Pakaian</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <select id="stock-filter" onchange="filterProducts()">
+                        <option value="">Semua Stok</option>
+                        <option value="in-stock">Tersedia</option>
+                        <option value="low-stock">Stok Rendah</option>
+                        <option value="out-of-stock">Habis</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Products Table -->
+            <div class="table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" id="select-all-products" onchange="toggleSelectAll('products')">
+                            </th>
+                            <th>Gambar</th>
+                            <th>Nama Produk</th>
+                            <th>Kategori</th>
+                            <th>Harga</th>
+                            <th>Stok</th>
+                            <th>Rating</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="products-table-body">
+                        <!-- Data will be loaded by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Bulk Actions -->
+            <div class="bulk-actions" id="bulk-actions-products" style="display: none;">
+                <span id="selected-count-products">0 produk dipilih</span>
+                <button class="btn btn-success" onclick="bulkActivate()">Aktifkan</button>
+                <button class="btn btn-warning" onclick="bulkDeactivate()">Nonaktifkan</button>
+                <button class="btn btn-danger" onclick="bulkDeleteProducts()">Hapus</button>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="products-pagination">
+                <!-- Pagination will be generated by JavaScript -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Product Modal -->
+    <div class="modal" id="product-modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3 id="product-modal-title">Tambah Produk</h3>
+                <button class="close-modal" onclick="closeProductModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="product-form">
+                    <input type="hidden" id="product-id">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="product-name">Nama Produk *</label>
+                            <input type="text" id="product-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-category">Kategori *</label>
+                            <select id="product-category" required>
+                                <option value="">Pilih Kategori</option>
+                                <option value="mandi">Perlengkapan Mandi</option>
+                                <option value="cuci">Perlengkapan Cuci</option>
+                                <option value="kebersihan">Kebersihan</option>
+                                <option value="alat-tulis">Alat Tulis</option>
+                                <option value="elektronik">Elektronik</option>
+                                <option value="pakaian">Pakaian</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="product-description">Deskripsi Produk *</label>
+                        <textarea id="product-description" rows="3" required placeholder="Deskripsi singkat produk..."></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="product-price">Harga Jual *</label>
+                            <input type="number" id="product-price" required min="0" step="1000">
+                        </div>
+                        <div class="form-group">
+                            <label for="product-original-price">Harga Asli</label>
+                            <input type="number" id="product-original-price" min="0" step="1000">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="product-stock">Stok *</label>
+                            <input type="number" id="product-stock" required min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="product-weight">Berat (gram)</label>
+                            <input type="number" id="product-weight" min="0">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="product-image">URL Gambar Utama</label>
+                        <input type="url" id="product-image" placeholder="https://example.com/image.jpg">
+                        <div class="image-preview" id="product-image-preview"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Spesifikasi Produk</label>
+                        <div id="specifications-container">
+                            <div class="specification-row">
+                                <input type="text" placeholder="Nama spesifikasi" class="spec-name">
+                                <input type="text" placeholder="Nilai spesifikasi" class="spec-value">
+                                <button type="button" onclick="removeSpecification(this)" class="btn btn-danger btn-small">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <button type="button" onclick="addSpecification()" class="btn btn-secondary btn-small">
+                            <i class="fas fa-plus"></i> Tambah Spesifikasi
+                        </button>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="product-status">Status</label>
+                            <select id="product-status">
+                                <option value="active">Aktif</option>
+                                <option value="inactive">Nonaktif</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-featured">Produk Unggulan</label>
+                            <select id="product-featured">
+                                <option value="false">Tidak</option>
+                                <option value="true">Ya</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeProductModal()">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan Produk</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stock Alert Modal -->
+    <div class="modal" id="stock-alert-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Peringatan Stok</h3>
+                <button class="close-modal" onclick="closeStockAlert()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="low-stock-products">
+                    <!-- Low stock products will be loaded here -->
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-primary" onclick="closeStockAlert()">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+    <script src="admin-script.js"></script>
+</body>
+</html>

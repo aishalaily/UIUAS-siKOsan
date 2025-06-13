@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blog Style - YesStyle Clone</title>
+  <link rel="stylesheet" href="css/artikel.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <!-- navbar -->
+    <header class="navbar">
+    <div class="nav-container">
+      <button onclick="goBack()" class="back-button">Kembali</button>
+      <div class="nav-logo">siKOsan</div>
+      <ul class="nav-menu">
+        <li><a href="landing.html">Beranda</a></li>
+        <li><a href="artikel.html" class="active">Artikel</a></li>
+        <li><a href="produk.html">Produk</a></li>
+        <li><a href="keranjang.html">Keranjang <span id="cart-count">0</span></a></li>
+        <li><a href="history.html">History</a></li>
+      </ul>
+      <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <h2 class="section-title">Artikel</h2>
+    <div class="filter-search">
+        <div class="search-bar">
+        <input type="text" id="article-search" placeholder="Cari artikel...">
+        <button><i class="fas fa-search"></i></button>
+    </div>
+    </div>
+    <div class="article-grid" id="articleGrid">
+      <!-- dimuat di JS -->
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>siKOsan</h3>
+                <p>Solusi belanja praktis untuk anak kos di seluruh Indonesia</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="katalog.html">Produk</a></li>
+                    <li><a href="artikel.html">Artikel</a></li>
+                    <li><a href="keranjang.html">Keranjang</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Kontak</h4>
+                <p><i class="fas fa-phone"></i> +62 812-3456-7890</p>
+                <p><i class="fas fa-envelope"></i> info@siKOsan.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 siKOsan. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+  <script src="artikel.js"></script>
+</body>
+</html>

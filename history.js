@@ -1,0 +1,442 @@
+function goBack() {
+  window.history.back()
+}
+
+// Sample order data - in real app this would come from backend
+const sampleOrders = [
+  {
+    id: "ORD-20241201-001",
+    date: "2024-12-01",
+    status: "delivered",
+    items: [
+      {
+        nama: "Sabun Cair Lifebuoy",
+        variant: "250ml",
+        qty: 2,
+        harga: "25000",
+        gambar: "https://i.pinimg.com/736x/54/ed/56/54ed569897aa9fe19fff8726d244fcdf.jpg",
+      },
+      {
+        nama: "Shampoo Sunslik",
+        variant: "160ml",
+        qty: 1,
+        harga: "45000",
+        gambar: "https://i.pinimg.com/736x/db/8f/e1/db8fe165605c4a8881eed59f4942fe9a.jpg",
+      },
+    ],
+    total: 95000,
+    shipping: 10000,
+    trackingNumber: "JNE1234567890",
+  },
+  {
+    id: "ORD-20241128-002",
+    date: "2024-11-28",
+    status: "shipped",
+    items: [
+      {
+        nama: "Panci Listrik",
+        variant: "Pink",
+        qty: 1,
+        harga: "125000",
+        gambar: "https://i.pinimg.com/736x/b3/0a/1a/b30a1a165e3f7c7b6b0cfdea9bb4bc76.jpg",
+      },
+    ],
+    total: 125000,
+    shipping: 0,
+    trackingNumber: "JNE0987654321",
+  },
+  {
+    id: "ORD-20241125-003",
+    date: "2024-11-25",
+    status: "processing",
+    items: [
+      {
+        nama: "Lampu Tidur Aesthetic",
+        variant: "RGB",
+        qty: 1,
+        harga: "39000",
+        gambar: "https://via.placeholder.com/200",
+      },
+      {
+        nama: "Sprei Kasur",
+        variant: "Single",
+        qty: 1,
+        harga: "60000",
+        gambar: "https://i.pinimg.com/736x/c1/a8/25/c1a825c60d4c3e29228ef27c055c760b.jpg",
+      },
+    ],
+    total: 99000,
+    shipping: 10000,
+  },
+  {
+    id: "ORD-20241120-004",
+    date: "2024-11-20",
+    status: "pending",
+    items: [
+      {
+        nama: "Kipas Angin",
+        variant: "Meja",
+        qty: 1,
+        harga: "105000",
+        gambar: "https://i.pinimg.com/736x/a8/77/31/a87731446a54e193992695bf5400dd51.jpg",
+      },
+    ],
+    total: 105000,
+    shipping: 0,
+  },
+]
+
+let currentFilter = "all"
+let currentPage = 1
+const ordersPerPage = 5
+
+function initializeHistory() {
+  // Load orders from localStorage or use sample data
+  let orders = JSON.parse(localStorage.getItem("orderHistory")) || []
+
+  // If no orders in localStorage, use sample data for demo
+  if (orders.length === 0) {
+    orders = sampleOrders
+    localStorage.setItem("orderHistory", JSON.stringify(orders))
+  }
+
+  displayOrders(orders)
+  updateCartCount()
+}
+
+function displayOrders(orders) {
+  const ordersList = document.getElementById("orders-list")
+  const emptyHistory = document.getElementById("empty-history")
+
+  // Filter orders based on current filter
+  let filteredOrders = orders
+  if (currentFilter !== "all") {
+    filteredOrders = orders.filter((order) => order.status === currentFilter)
+  }
+
+  if (filteredOrders.length === 0) {
+    ordersList.style.display = "none"
+    emptyHistory.style.display = "block"
+    return
+  }
+
+  ordersList.style.display = "block"
+  emptyHistory.style.display = "none"
+
+  // Pagination
+  const startIndex = (currentPage - 1) * ordersPerPage
+  const endIndex = startIndex + ordersPerPage
+  const paginatedOrders = filteredOrders.slice(startIndex, endIndex)
+
+  ordersList.innerHTML = ""
+
+  paginatedOrders.forEach((order) => {
+    const orderCard = createOrderCard(order)
+    ordersList.appendChild(orderCard)
+  })
+
+  createPagination(filteredOrders.length)
+}
+
+function createOrderCard(order) {
+  const card = document.createElement("div")
+  card.className = "order-card"
+
+  const statusText = getStatusText(order.status)
+  const itemsHtml = order.items
+    .slice(0, 2)
+    .map(
+      (item) => `
+    <div class="order-item">
+      <img src="${item.image }" alt="${item.nama}">
+      <div class="item-info">
+        <div class="item-name">${item.nama}</div>
+        <div class="item-details">${item.variant} × ${item.qty}</div>
+      </div>
+    </div>
+  `,
+    )
+    .join("")
+
+  const moreItems = order.items.length > 2 ? `<p>+${order.items.length - 2} produk lainnya</p>` : ""
+
+  card.innerHTML = `
+    <div class="order-header">
+      <div>
+        <div class="order-id">${order.id}</div>
+        <div class="order-date">${formatDate(order.date)}</div>
+      </div>
+      <div class="order-status status-${order.status}">${statusText}</div>
+    </div>
+    
+    <div class="order-items">
+      ${itemsHtml}
+      ${moreItems}
+    </div>
+    
+    <div class="order-footer">
+      <div class="order-total">
+        Total: Rp ${(order.total + order.shipping).toLocaleString("id-ID")}
+      </div>
+      <div class="order-actions">
+        <button class="btn btn-secondary btn-small" onclick="viewOrderDetail('${order.id}')">
+          Detail
+        </button>
+        ${getActionButtons(order)}
+      </div>
+    </div>
+  `
+
+  return card
+}
+
+function getStatusText(status) {
+  const statusMap = {
+    pending: "Menunggu Pembayaran",
+    processing: "Diproses",
+    shipped: "Dikirim",
+    delivered: "Selesai",
+    cancelled: "Dibatalkan",
+  }
+  return statusMap[status] || status
+}
+
+function getActionButtons(order) {
+  switch (order.status) {
+    case "pending":
+      return `
+        <button class="btn btn-primary btn-small" onclick="payOrder('${order.id}')">
+          Bayar
+        </button>
+        <button class="btn btn-danger btn-small" onclick="cancelOrder('${order.id}')">
+          Batal
+        </button>
+      `
+    case "shipped":
+      return `
+        <button class="btn btn-primary btn-small" onclick="trackOrder('${order.id}')">
+          Lacak
+        </button>
+      `
+    case "delivered":
+      return `
+        <button class="btn btn-primary btn-small" onclick="reorderItems('${order.id}')">
+          Pesan Lagi
+        </button>
+      `
+    default:
+      return ""
+  }
+}
+
+function filterOrders(status) {
+  currentFilter = status
+  currentPage = 1
+
+  // Update active tab
+  document.querySelectorAll(".tab-btn").forEach((btn) => btn.classList.remove("active"))
+  event.target.classList.add("active")
+
+  const orders = JSON.parse(localStorage.getItem("orderHistory")) || sampleOrders
+  displayOrders(orders)
+}
+
+function searchOrders() {
+  const searchTerm = document.getElementById("order-search").value.toLowerCase()
+  const orders = JSON.parse(localStorage.getItem("orderHistory")) || sampleOrders
+
+  const filteredOrders = orders.filter((order) => {
+    return (
+      order.id.toLowerCase().includes(searchTerm) ||
+      order.items.some((item) => item.nama.toLowerCase().includes(searchTerm))
+    )
+  })
+
+  displayOrders(filteredOrders)
+}
+
+function viewOrderDetail(orderId) {
+  const orders = JSON.parse(localStorage.getItem("orderHistory")) || sampleOrders
+  const order = orders.find((o) => o.id === orderId)
+
+  if (!order) return
+
+  const modal = document.getElementById("order-detail-modal")
+  const content = document.getElementById("order-detail-content")
+
+  const itemsHtml = order.items
+    .map(
+      (item) => `
+    <div class="order-item" style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #e5e7eb;">
+      <img src="${item.image}" alt="${item.nama}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px;">
+      <div class="item-info">
+        <div class="item-name" style="font-weight: 500; margin-bottom: 0.25rem;">${item.nama}</div>
+        <div class="item-details" style="color: #6b7280; font-size: 0.9rem;">
+          ${item.variant} × ${item.qty} = Rp ${(Number.parseInt(item.harga) * item.qty).toLocaleString("id-ID")}
+        </div>
+      </div>
+    </div>
+  `,
+    )
+    .join("")
+
+  content.innerHTML = `
+    <div style="margin-bottom: 1.5rem;">
+      <h4>Informasi Pesanan</h4>
+      <p><strong>ID Pesanan:</strong> ${order.id}</p>
+      <p><strong>Tanggal:</strong> ${formatDate(order.date)}</p>
+      <p><strong>Status:</strong> <span class="order-status status-${order.status}">${getStatusText(order.status)}</span></p>
+      ${order.trackingNumber ? `<p><strong>Nomor Resi:</strong> ${order.trackingNumber}</p>` : ""}
+    </div>
+    
+    <div style="margin-bottom: 1.5rem;">
+      <h4>Produk yang Dipesan</h4>
+      ${itemsHtml}
+    </div>
+    
+    <div>
+      <h4>Ringkasan Pembayaran</h4>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+        <span>Subtotal:</span>
+        <span>Rp ${order.total.toLocaleString("id-ID")}</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+        <span>Ongkos Kirim:</span>
+        <span>Rp ${order.shipping.toLocaleString("id-ID")}</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; font-weight: bold; border-top: 1px solid #e5e7eb; padding-top: 0.5rem;">
+        <span>Total:</span>
+        <span>Rp ${(order.total + order.shipping).toLocaleString("id-ID")}</span>
+      </div>
+    </div>
+  `
+
+  modal.classList.add("active")
+}
+
+function closeOrderDetail() {
+  document.getElementById("order-detail-modal").classList.remove("active")
+}
+
+function payOrder(orderId) {
+  // Redirect to payment page
+  localStorage.setItem("paymentOrderId", orderId)
+  window.location.href = "pembayaran.html"
+}
+
+function cancelOrder(orderId) {
+  if (confirm("Apakah Anda yakin ingin membatalkan pesanan ini?")) {
+    const orders = JSON.parse(localStorage.getItem("orderHistory")) || sampleOrders
+    const orderIndex = orders.findIndex((o) => o.id === orderId)
+
+    if (orderIndex !== -1) {
+      orders[orderIndex].status = "cancelled"
+      localStorage.setItem("orderHistory", JSON.stringify(orders))
+      displayOrders(orders)
+      alert("Pesanan berhasil dibatalkan")
+    }
+  }
+}
+
+function trackOrder(orderId) {
+  const orders = JSON.parse(localStorage.getItem("orderHistory")) || sampleOrders
+  const order = orders.find((o) => o.id === orderId)
+
+  if (order && order.trackingNumber) {
+    alert(
+      `Nomor resi: ${order.trackingNumber}\n\nPesanan Anda sedang dalam perjalanan. Silakan cek status pengiriman di website kurir.`,
+    )
+  }
+}
+
+function reorderItems(orderId) {
+  const orders = JSON.parse(localStorage.getItem("orderHistory")) || sampleOrders
+  const order = orders.find((o) => o.id === orderId)
+
+  if (order) {
+    // Add items to cart
+    const keranjang = JSON.parse(localStorage.getItem("keranjang")) || []
+
+    order.items.forEach((item) => {
+      const existingIndex = keranjang.findIndex((k) => k.nama === item.nama && k.variant === item.variant)
+
+      if (existingIndex !== -1) {
+        keranjang[existingIndex].qty += item.qty
+      } else {
+        keranjang.push({
+          nama: item.nama,
+          harga: item.harga,
+          gambar: item.image,
+          qty: item.qty,
+          variant: item.variant,
+        })
+      }
+    })
+
+    localStorage.setItem("keranjang", JSON.stringify(keranjang))
+    alert("Produk berhasil ditambahkan ke keranjang!")
+    updateCartCount()
+  }
+}
+
+function createPagination(totalOrders) {
+  const pagination = document.getElementById("pagination")
+  const totalPages = Math.ceil(totalOrders / ordersPerPage)
+
+  if (totalPages <= 1) {
+    pagination.innerHTML = ""
+    return
+  }
+
+  let paginationHTML = ""
+
+  // Previous button
+  paginationHTML += `
+    <button ${currentPage === 1 ? "disabled" : ""} onclick="changePage(${currentPage - 1})">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+  `
+
+  // Page numbers
+  for (let i = 1; i <= totalPages; i++) {
+    paginationHTML += `
+      <button class="${i === currentPage ? "active" : ""}" onclick="changePage(${i})">
+        ${i}
+      </button>
+    `
+  }
+
+  // Next button
+  paginationHTML += `
+    <button ${currentPage === totalPages ? "disabled" : ""} onclick="changePage(${currentPage + 1})">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  `
+
+  pagination.innerHTML = paginationHTML
+}
+
+function changePage(page) {
+  currentPage = page
+  const orders = JSON.parse(localStorage.getItem("orderHistory")) || sampleOrders
+  displayOrders(orders)
+}
+
+function formatDate(dateString) {
+  const date = new Date(dateString)
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }
+  return date.toLocaleDateString("id-ID", options)
+}
+
+function updateCartCount() {
+  const keranjang = JSON.parse(localStorage.getItem("keranjang")) || []
+  const totalItems = keranjang.reduce((sum, item) => sum + item.qty, 0)
+  document.getElementById("cart-count").textContent = totalItems
+}
+
+// Initialize when page loads
+document.addEventListener("DOMContentLoaded", initializeHistory)

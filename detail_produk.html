@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Detail Produk - siKOsan</title>
+  <link rel="stylesheet" href="css/detail_produk.css"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <button onclick="goBack()" class="back-button">
+        <i class="fas fa-arrow-left"></i> Kembali
+      </button>
+      <div class="nav-logo">siKOsan</div>
+      <ul class="nav-menu">
+        <li><a href="landing.html">Beranda</a></li>
+        <li><a href="artikel.html">Artikel</a></li>
+        <li><a href="produk.html">Produk</a></li>
+        <li><a href="keranjang.html">Keranjang <span id="cart-count">0</span></a></li>
+        <li><a href="history.html">History</a></li>
+      </ul>
+      <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+      </div>
+    </div>
+  </header>
+
+  <main class="product-detail container">
+    <section class="product-images">
+      <img id="detail-gambar" src="/placeholder.svg" alt="Produk" class="main-img"/>
+    </section>
+
+    <section class="product-info">
+      <h2 id="detail-nama">Nama Produk</h2>
+      <p id="detail-harga" class="price">Harga</p>
+      
+      <div class="variant-wrapper">
+        <p><i class="fas fa-palette"></i> Pilih Varian:</p>
+        <div id="variant-container" class="variant-group"></div>
+      </div>
+      
+      <div class="quantity">
+        <p><i class="fas fa-sort-numeric-up"></i> Kuantitas:</p>
+        <div class="quantity-control">
+          <button onclick="decrease()">
+            <i class="fas fa-minus"></i>
+          </button>
+          <span id="qty">1</span>
+          <button onclick="increase()">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn add-to-cart" id="add-to-cart">
+          <i class="fas fa-shopping-cart"></i>
+          Tambah ke Keranjang
+        </button>
+        <button class="btn buy-now" id="buy-now">
+          <i class="fas fa-bolt"></i>
+          Beli Sekarang
+        </button>
+      </div>
+
+      <div class="payment-icons">
+        <h4><i class="fas fa-credit-card"></i> Metode Pembayaran:</h4>
+        <div class="payment-grid">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/512px-Visa_Inc._logo.svg.png" alt="Visa"/>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Mastercard-logo.png/512px-Mastercard-logo.png" alt="Mastercard"/>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/PayPal_logo.svg/512px-PayPal_logo.svg.png" alt="PayPal"/>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" alt="GoPay"/>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" alt="OVO"/>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Product Description -->
+  <section class="product-description container">
+    <h3><i class="fas fa-info-circle"></i> Deskripsi Produk</h3>
+    <p id="product-desc">
+      Produk berkualitas tinggi yang dirancang khusus untuk memenuhi kebutuhan anak kos. 
+      Praktis, terjangkau, dan mudah digunakan. Cocok untuk kehidupan sehari-hari di kos.
+    </p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>siKOsan</h3>
+                <p>Solusi belanja praktis untuk anak kos di seluruh Indonesia</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="produk.html">Produk</a></li>
+                    <li><a href="artikel.html">Artikel</a></li>
+                    <li><a href="keranjang.html">Keranjang</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Kontak</h4>
+                <p><i class="fas fa-phone"></i> +62 812-3456-7890</p>
+                <p><i class="fas fa-envelope"></i> info@siKOsan.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 siKOsan. All rights reserved.</p>
+        </div>
+    </div>
+  </footer>
+
+  <script src="detail_produk.js"></script>
+</body>
+</html>

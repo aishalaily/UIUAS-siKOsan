@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>siKOsan - Solusi Belanja Anak Kos</title>
+  <link rel="stylesheet" href="css/landing.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="body">
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">siKOsan</div>
+      <ul class="nav-menu">
+        <li><a href="landing.html" class="active">Beranda</a></li>
+        <li><a href="artikel.html">Artikel</a></li>
+        <li><a href="produk.html">Produk</a></li>
+        <li><a href="keranjang.html">Keranjang <span id="cart-count">0</span></a></li>
+        <li><a href="history.html">History</a></li>
+      </ul>
+      <div class="dropdown-container">
+        <button class="dropdown-toggle">
+          Role <span class="arrow">▼</span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a href="admin/dashboard.html">Admin</a></li>
+          <li><a href="landing.html">User</a></li>
+        </ul>
+      </div>
+      <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-title">
+      <h1>Solusi Belanja Praktis untuk <span>Anak Kos</span></h1>
+      <p>Dapatkan semua perlengkapan sehari-hari yang kamu butuhkan dengan mudah dan cepat. Khusus untuk anak kos yang sibuk dengan harga terjangkau!</p>
+      <a href="produk.html" class="button">
+        <i class="fas fa-shopping-bag"></i>
+        Mulai Belanja Sekarang
+      </a>
+    </div>
+    <div class="hero-image">
+      <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Belanja anak kos">
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features">
+    <div class="container">
+      <h2>Mengapa Pilih <span style="background: linear-gradient(135deg, #22c55e, #16a34a); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">siKOsan</span>?</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <i class="fas fa-shipping-fast"></i>
+          <h3>Pengiriman Cepat</h3>
+          <p>Barang sampai dalam 1-2 hari kerja langsung ke kos kamu. Gratis ongkir untuk pembelian di atas Rp 50.000</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-wallet"></i>
+          <h3>Harga Terjangkau</h3>
+          <p>Harga khusus untuk mahasiswa dengan budget terbatas. Dapatkan diskon hingga 30% untuk member baru</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-gift"></i>
+          <h3>Paket Hemat</h3>
+          <p>Bundle produk sehari-hari dengan harga lebih murah. Hemat hingga 50% dengan paket bulanan</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-clock"></i>
+          <h3>24/7 Available</h3>
+          <p>Belanja kapan saja sesuai jadwal kuliah kamu. Customer service siap membantu 24 jam</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Produk Popoler-->
+  <section class="popular-products">
+      <div class="container">
+          <h2>Produk Populer</h2>
+          <div class="products-grid" id="popular-products">
+              <!-- Products will be loaded by JavaScript -->
+          </div>
+          <div class="text-center">
+              <a href="katalog.html" class="btn btn-primary">Lihat Semua Produk</a>
+          </div>
+      </div>
+  </section>
+
+  <!-- Testimoni -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Apa Kata <span style="background: linear-gradient(135deg, #22c55e, #16a34a); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Mereka</span>?</h2>
+      <div class="testimoni-grid">
+        <div class="testimoni-card">
+          <p class="quote">siKOsan bener-bener ngebantu banget buat anak kos kaya aku. Barangnya lucu-lucu dan harganya ramah di kantong mahasiswa!</p>
+          <p class="author">— Rani, Mahasiswa UI</p>
+        </div>
+        <div class="testimoni-card">
+          <p class="quote">Produk datang cepat dan kualitasnya bagus. Packaging-nya juga rapi banget. Pasti repeat order terus!</p>
+          <p class="author">— Fajar, Anak Kos Bandung</p>
+        </div>
+        <div class="testimoni-card">
+          <p class="quote">Murah, estetik, dan lengkap. Gak nyangka ada toko online khusus anak kos kayak gini. Recommended banget!</p>
+          <p class="author">— Nisa, Freelancer Jakarta</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Artikel -->
+  <section class="articles-preview">
+      <div class="container">
+          <h2>Tips & Artikel Terbaru</h2>
+          <div class="articles-grid" id="latest-articles">
+              <!-- Articles will be loaded by JavaScript -->
+          </div>
+          <div class="text-center">
+              <a href="artikel.html" class="btn btn-secondary">Baca Artikel Lainnya</a>
+          </div>
+      </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>siKOsan</h3>
+                <p>Solusi belanja praktis untuk anak kos di seluruh Indonesia</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="katalog.html">Produk</a></li>
+                    <li><a href="artikel.html">Artikel</a></li>
+                    <li><a href="keranjang.html">Keranjang</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Kontak</h4>
+                <p><i class="fas fa-phone"></i> +62 812-3456-7890</p>
+                <p><i class="fas fa-envelope"></i> info@siKOsan.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 siKOsan. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+  <script src="landing.js"></script>
+</body>
+</html>
