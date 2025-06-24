@@ -693,3 +693,59 @@ body {
     padding: 60px 0;
   }
 }
+
+/* Container grid produk */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+/* Card produk */
+.produk-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+}
+
+.produk-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Gambar produk */
+.produk-card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+}
+
+/* Nama produk */
+.produk-card h4 {
+  font-size: 1rem;
+  color: #111827;
+  margin-bottom: 0.5rem;
+  min-height: 40px; /* menjaga tinggi tetap untuk card yang lebih rapi */
+}
+
+/* Harga produk */
+.product-price {
+  font-weight: 600;
+  color: #16a34a;
+  font-size: 0.95rem;
+}
+
+/* Harga coret (jika ada diskon) */
+.harga-diskon {
+  text-decoration: line-through;
+  color: #9ca3af;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}

@@ -3,18 +3,15 @@ function goBack() {
 }
 
 function filterKategori(kategori) {
-  // Ganti tombol aktif
   document.querySelectorAll(".category-filter").forEach((btn) => {
     btn.classList.remove("active")
   })
 
-  // Tambahkan class active ke tombol yang sesuai kategori
   const activeBtn = Array.from(document.querySelectorAll(".category-filter")).find(
     (btn) => btn.getAttribute("onclick") === `filterKategori('${kategori}')`
   )
   if (activeBtn) activeBtn.classList.add("active")
 
-  // Tampilkan dan sembunyikan produk
   const cards = document.querySelectorAll(".produk-card")
   cards.forEach((card) => {
     if (kategori === "all" || card.classList.contains(kategori)) {
@@ -67,19 +64,60 @@ function displayProducts(products) {
 
 const produkList = [
   {
-    nama: "Panci Mini",
+    nama: "Satu Set Pisau",
     kategori: "dapur",
-    gambar: "https://via.placeholder.com/200",
-    hargaDiskon: 59000,
-    harga: 49000,
-    varian: ["Kecil", "Sedang", "Besar"],
+    gambar: "https://i.pinimg.com/736x/e7/fe/69/e7fe69cb512b73e4d2a0076440ad25d0.jpg",
+    hargaDiskon: 100000,
+    harga: 87000,
+    varian: ["Set", "Satuan"],
   },
   {
-    nama: "Kompor Portable",
+    nama: "Toples Bumbu Kayu",
     kategori: "dapur",
-    gambar: "https://via.placeholder.com/200",
+    gambar: "https://i.pinimg.com/736x/c7/67/8f/c7678f65776e12a83c84afc8610a26c5.jpg",
     harga: 149000,
-    varian: ["Mini", "Reguler"],
+    varian: ["Set", "Satuan"],
+  },
+  {
+    nama: "Sendok",
+    kategori: "dapur",
+    gambar: "https://i.pinimg.com/736x/40/80/32/4080322e1465bbbe92e6c88c695f7d34.jpg",
+    harga: 19000,
+    varian: ["Set", "Satuan"],
+  },
+  {
+    nama: "Satu set Alat Makan",
+    kategori: "dapur",
+    gambar: "https://i.pinimg.com/736x/98/46/49/984649950a9dcfaf7c427a8421399dc6.jpg",
+    harga: 47000,
+  },
+  {
+    nama: "Telenan",
+    kategori: "dapur",
+    gambar: "https://i.pinimg.com/736x/6e/14/85/6e1485c14da1b422d6d700b08c6509cc.jpg",
+    harga: 39000,
+    varian: ["Kayu", "Plastik"],
+  },
+  {
+    nama: "Sepatula",
+    kategori: "dapur",
+    gambar: "https://i.pinimg.com/736x/1e/50/02/1e50022ccfe06e3ab3d4e0d98613a377.jpg",
+    harga: 45000,
+    varian: ["Kayu", "Plastik"],
+  },
+  {
+    nama: "Piring Plastik",
+    kategori: "dapur",
+    gambar: "https://i.pinimg.com/736x/94/35/7a/94357a9b48368cb48e114960c37afe76.jpg",
+    harga: 45000,
+    varian: ["Biru", "Pink", "Kuning", "Putih", "Hijau"],
+  },
+  {
+    nama: "Gelas Plastik",
+    kategori: "dapur",
+    gambar: "https://i.pinimg.com/736x/d7/b9/da/d7b9dafcfb50f7b6fa88217cc186d584.jpg",
+    harga: 40000,
+    varian: ["Pink","Putih", "Hijau"],
   },
   {
     nama: "Sabun Cair Lifebuoy",
@@ -159,6 +197,12 @@ const produkList = [
     varian: ["Kecil", "Besar"],
   },
   {
+    nama: "Pel Lantai",
+    kategori: "kebersihan",
+    harga: 89000,
+    gambar: "https://i.pinimg.com/736x/dc/b3/20/dcb3208e9c32013d74e2ffac8c5d2f4a.jpg",
+  },
+  {
     nama: "Tempat Sampah",
     kategori: "kebersihan",
     harga: 45000,
@@ -215,25 +259,29 @@ const produkList = [
     varian: [],
   },
   {
-    nama: "Lampu Tidur Aesthetic",
-    kategori: "dekorasi",
-    harga: 39000,
-    gambar: "https://via.placeholder.com/200",
-    varian: ["Putih Hangat", "RGB"],
-  },
-  {
-    nama: "Poster Dinding",
-    kategori: "dekorasi",
-    harga: 12000,
-    gambar: "https://via.placeholder.com/200",
-    varian: ["A4", "A3"],
-  },
-  {
     nama: "Lampu",
     kategori: "elektronik",
     harga: 25000,
     gambar: "https://i.pinimg.com/736x/c2/1f/1a/c21f1a64528d4625a355a8743abc525c.jpg",
     varian: ["LED", "Neon"],
+  },
+  {
+    nama: "Chopper",
+    kategori: "elektronik",
+    harga: 85000,
+    gambar: "https://i.pinimg.com/736x/ba/23/fb/ba23fb7a823f871ff9597a651cc88799.jpg",
+  },
+  {
+    nama: "Airfryer",
+    kategori: "elektronik",
+    harga: 85000,
+    gambar: "https://i.pinimg.com/736x/55/09/41/550941a6cb7e7bd8ea6ecaa214d95605.jpg",
+  },
+  {
+    nama: "Blender",
+    kategori: "elektronik",
+    harga: 105000,
+    gambar: "https://i.pinimg.com/736x/b6/0b/24/b60b240cd48116a7ae4e7e2dc4b6b320.jpg",
   },
   {
     nama: "Panci Listrik",
@@ -281,7 +329,7 @@ const produkList = [
     nama: "Kipas Portable",
     kategori: "elektronik",
     harga: 75000,
-    gambar: "https://i.pinimg.com/736x/66/b0/b7/66b0b72128d9b9c3e5757edf43ed2f46.jpg",
+    gambar: "https://i.pinimg.com/736x/6d/a3/0a/6da30a34ad0eb24a92082723011ce487.jpg",
     varian: ["Biru", "Putih"],
   },
   {
@@ -334,11 +382,16 @@ const produkList = [
     varian: ["Digital", "Analog"],
   },
   {
-    kategori: "lucu",
-    nama: "Kipas Portable",
-    harga: 12000,
-    gambar: "https://via.placeholder.com/200",
-    varian: ["Biru", "Pink", "Hijau"],
+    kategori: "tidur",
+    nama: "Jam Dinding",
+    harga: 46000,
+    gambar: "https://i.pinimg.com/736x/eb/47/63/eb4763a65633db9660efe149675a6d51.jpg",
+  },
+  {
+    kategori: "tidur",
+    nama: "Boneka Singa",
+    harga: 46000,
+    gambar: "https://i.pinimg.com/736x/46/d3/c0/46d3c05747607e98439c992d9bfa1bcc.jpg",
   },
 ]
 
