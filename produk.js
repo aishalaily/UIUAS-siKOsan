@@ -3,38 +3,39 @@ function goBack() {
 }
 
 function filterKategori(kategori) {
-  const cards = document.querySelectorAll(".produk-card")
-  cards.forEach((card) => {
-    if (kategori === "all") {
-      card.classList.remove("hidden")
-    } else {
-      if (card.classList.contains(kategori)) {
-        card.classList.remove("hidden")
-      } else {
-        card.classList.add("hidden")
-      }
-    }
+  // Ganti tombol aktif
+  document.querySelectorAll(".category-filter").forEach((btn) => {
+    btn.classList.remove("active")
   })
 
-  document.querySelectorAll(".category-filter").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      document.querySelectorAll(".category-filter").forEach((b) => b.classList.remove("active"))
-      e.target.classList.add("active")
+  // Tambahkan class active ke tombol yang sesuai kategori
+  const activeBtn = Array.from(document.querySelectorAll(".category-filter")).find(
+    (btn) => btn.getAttribute("onclick") === `filterKategori('${kategori}')`
+  )
+  if (activeBtn) activeBtn.classList.add("active")
 
-      const category = e.target.dataset.category
-      const filteredProducts =
-        category === "all" ? produkList : produkList.filter((product) => product.kategori === category)
-      displayProducts(filteredProducts)
-    })
+  // Tampilkan dan sembunyikan produk
+  const cards = document.querySelectorAll(".produk-card")
+  cards.forEach((card) => {
+    if (kategori === "all" || card.classList.contains(kategori)) {
+      card.classList.remove("hidden")
+    } else {
+      card.classList.add("hidden")
+    }
   })
 }
 
 function searchProduk() {
-  const input = document.getElementById("searchInput").value.toLowerCase()
+  const input = document.getElementById("product-search").value.toLowerCase()
   const cards = document.querySelectorAll(".produk-card")
+
   cards.forEach((card) => {
     const namaProduk = card.querySelector("h4").textContent.toLowerCase()
-    card.style.display = namaProduk.includes(input) ? "block" : "none"
+    if (namaProduk.includes(input)) {
+      card.classList.remove("hidden")
+    } else {
+      card.classList.add("hidden")
+    }
   })
 }
 

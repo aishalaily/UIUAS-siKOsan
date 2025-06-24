@@ -50,7 +50,7 @@ function displayOrderItems(items) {
     const itemTotal = Number.parseInt(item.harga.replace(/[^\d]/g, "")) * item.qty
 
     div.innerHTML = `
-      <img src="${item.image}" alt="${item.nama}">
+      <img src="${item.gambar}" alt="${item.nama}">
       <div class="item-info">
         <div class="item-name">${item.nama}</div>
         <div class="item-details">${item.variant} × ${item.qty}</div>

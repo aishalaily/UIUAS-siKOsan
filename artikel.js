@@ -9,6 +9,25 @@ function updateCartCount() {
   document.getElementById("cart-count").textContent = totalItems
 }
 
+function searchArtikel() {
+  const input = document.getElementById("article-search").value.toLowerCase()
+  const cards = document.querySelectorAll(".article-card")
+
+  cards.forEach((card) => {
+    const judul = card.querySelector(".article-title").textContent.toLowerCase()
+    const deskripsi = card.querySelector(".article-description").textContent.toLowerCase()
+
+    if (judul.includes(input) || deskripsi.includes(input)) {
+      card.style.display = "block"
+    } else {
+      card.style.display = "none"
+    }
+  })
+}
+
+document.getElementById("article-search").addEventListener("input", searchArtikel)
+
+
 const articles = [
   {
     id: 1,
@@ -341,7 +360,6 @@ articles.forEach((article) => {
     </div>
   `
 
-  // Event klik
   card.addEventListener("click", () => {
     localStorage.setItem("artikelDipilih", JSON.stringify(article))
     window.location.href = "detail_artikel.html"
@@ -351,7 +369,7 @@ articles.forEach((article) => {
 })
 
 
-// Initialize when page loads
 document.addEventListener("DOMContentLoaded", () => {
   updateCartCount()
 })
+

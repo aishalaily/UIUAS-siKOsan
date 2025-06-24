@@ -43,7 +43,7 @@ function loadKeranjang() {
 
     div.innerHTML = `
       <input type="checkbox" class="checkout-checkbox" id="chk-${index}" checked />
-      <img src="${item.image}" alt="${item.nama}" class="cart-img"/>
+      <img src="${item.gambar}" alt="${item.nama}" class="cart-img"/>
       <div class="cart-info">
         <h3>${item.nama}</h3>
         <p><i class="fas fa-palette"></i> Varian: ${item.variant}</p>

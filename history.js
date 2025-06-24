@@ -60,7 +60,7 @@ function createOrderCard(order) {
     .map(
       (item) => `
     <div class="order-item">
-      <img src="${item.image}" alt="${item.nama}">
+      <img src="${item.gambar}" alt="${item.nama}">
       <div class="item-info">
         <div class="item-name">${item.nama}</div>
         <div class="item-details">${item.variant} × ${item.qty}</div>
@@ -179,7 +179,7 @@ function viewOrderDetail(orderId) {
     .map(
       (item) => `
     <div class="order-item" style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #e5e7eb;">
-      <img src="${item.image}" alt="${item.nama}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px;">
+      <img src="${item.gambar}" alt="${item.nama}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px;">
       <div class="item-info">
         <div class="item-name" style="font-weight: 500; margin-bottom: 0.25rem;">${item.nama}</div>
         <div class="item-details" style="color: #6b7280; font-size: 0.9rem;">
@@ -275,7 +275,7 @@ function reorderItems(orderId) {
         keranjang.push({
           nama: item.nama,
           harga: item.harga,
-          gambar: item.image,
+          gambar: item.gambar,
           qty: item.qty,
           variant: item.variant,
         })
