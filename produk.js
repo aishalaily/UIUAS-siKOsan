@@ -62,7 +62,7 @@ function displayProducts(products) {
   })
 }
 
-const produkList = [
+window.produkList = [
   {
     nama: "Satu Set Pisau",
     kategori: "dapur",

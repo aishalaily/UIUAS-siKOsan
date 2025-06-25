@@ -2,33 +2,35 @@ function goBack() {
   window.history.back()
 }
 
-// Fungsi untuk mengupdate jumlah item di keranjang
 function updateCartCount() {
-  const keranjang = JSON.parse(localStorage.getItem("keranjang")) || []
-  const totalItems = keranjang.reduce((sum, item) => sum + item.qty, 0)
-  document.getElementById("cart-count").textContent = totalItems
+  const keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+  const totalItems = keranjang.reduce((sum, item) => sum + item.qty, 0);
+  const cartCountElement = document.getElementById("cart-count");
+  if (cartCountElement) {
+    cartCountElement.textContent = totalItems;
+  }
 }
 
 function searchArtikel() {
-  const input = document.getElementById("article-search").value.toLowerCase()
-  const cards = document.querySelectorAll(".article-card")
+  const input = document.getElementById("article-search");
+  const cards = document.querySelectorAll(".article-card");
+
+  if (!input) return;
+  const keyword = input.value.toLowerCase();
 
   cards.forEach((card) => {
-    const judul = card.querySelector(".article-title").textContent.toLowerCase()
-    const deskripsi = card.querySelector(".article-description").textContent.toLowerCase()
+    const judul = card.querySelector(".article-title").textContent.toLowerCase();
+    const deskripsi = card.querySelector(".article-description").textContent.toLowerCase();
 
-    if (judul.includes(input) || deskripsi.includes(input)) {
-      card.style.display = "block"
+    if (judul.includes(keyword) || deskripsi.includes(keyword)) {
+      card.style.display = "block";
     } else {
-      card.style.display = "none"
+      card.style.display = "none";
     }
-  })
+  });
 }
 
-document.getElementById("article-search").addEventListener("input", searchArtikel)
-
-
-const articles = [
+window.articles = [
   {
     id: 1,
     image: "https://i.pinimg.com/736x/6f/ef/65/6fef6510a38473b5d43b26ebd9516e41.jpg",
@@ -343,29 +345,37 @@ const articles = [
 },
 ]
 
-const container = document.getElementById("articleGrid")
-
-articles.forEach((article) => {
-  const card = document.createElement("div")
-  card.className = "article-card"
-
-  card.innerHTML = `
-    <img src="${article.image}" alt="${article.title}">
-    <div class="article-content">
-      <div class="article-title">${article.title}</div>
-      <div class="article-description">${article.description}</div>
-      <div class="article-meta">${article.date} • ${article.readTime}</div>
-    </div>
-  `
-
-  card.addEventListener("click", () => {
-    localStorage.setItem("artikelDipilih", JSON.stringify(article))
-    window.location.href = "detail_artikel.html"
-  })
-
-  container.appendChild(card)
-})
-
 document.addEventListener("DOMContentLoaded", () => {
-  updateCartCount()
-})
+  updateCartCount();
+
+  const searchInput = document.getElementById("article-search");
+  if (searchInput) {
+    searchInput.addEventListener("input", searchArtikel);
+  }
+  const container = document.getElementById("articles");
+  if (!container || !window.articles || articles.length === 0) {
+    console.warn("Elemen artikel tidak ditemukan atau data artikel belum tersedia");
+    return;
+  }
+
+  articles.slice(0, 9).forEach((article) => {
+    const card = document.createElement("div");
+    card.className = "article-card";
+
+    card.innerHTML = `
+      <img src="${article.image}" alt="${article.title}">
+      <div class="article-content">
+        <div class="article-title">${article.title}</div>
+        <div class="article-description">${article.description}</div>
+        <div class="article-meta">${article.date} • ${article.readTime}</div>
+      </div>
+    `;
+
+    card.addEventListener("click", () => {
+      localStorage.setItem("artikelDipilih", JSON.stringify(article));
+      window.location.href = "detail_artikel.html";
+    });
+
+    container.appendChild(card);
+  });
+});

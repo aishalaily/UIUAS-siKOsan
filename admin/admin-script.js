@@ -962,12 +962,6 @@ function showNotification(message, type = 'info') {
     }, 5000);
 }
 
-function logout() {
-    if (confirm('Apakah Anda yakin ingin logout?')) {
-        window.location.href = '../index.html';
-    }
-}
-
 function exportData() {
     showNotification('Fitur export sedang dalam pengembangan', 'info');
 }
