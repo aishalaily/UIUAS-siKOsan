@@ -37,13 +37,14 @@ document.addEventListener("DOMContentLoaded", () => {
   updateCartCount()
   setupDropdown()
   tampilkanProdukPopuler()
+  tampilkanArtikelTerbaru()
 })
 
 function tampilkanProdukPopuler(jumlah = 5) {
   const container = document.getElementById("popular-products")
   if (!container) return
 
-  const produkPopuler = produkList.slice(0, jumlah) // ambil 6 produk pertama
+  const produkPopuler = produkList.slice(0, jumlah)
   produkPopuler.forEach(produk => {
     const card = document.createElement("div")
     card.className = "produk-card"
@@ -58,14 +59,35 @@ function tampilkanProdukPopuler(jumlah = 5) {
   })
 }
 
-const articleCard = document.createElement("div")
-articleCard.className = "article-card"
+document.addEventListener("DOMContentLoaded", () => {
+  updateCartCount()
 
-articleCard.innerHTML = `
-  <img src="${artikel.gambar}" alt="${artikel.judul}">
-  <div class="article-content">
-    <h4>${artikel.judul}</h4>
-    <p>${artikel.ringkasan}</p>
-  </div>
-`
+  const container = document.getElementById("latest-articles")
 
+  if (typeof articles !== "undefined" && Array.isArray(articles)) {
+    // Ambil 3 artikel terbaru saja
+    articles.slice(0, 3).forEach((article) => {
+      const card = document.createElement("div")
+      card.className = "article-card"
+
+      card.innerHTML = `
+        <img src="${article.image}" alt="${article.title}" />
+        <div class="article-content">
+          <h3 class="article-title">${article.title}</h3>
+          <p class="article-description">${article.description}</p>
+          <div class="article-meta">${article.date} • ${article.readTime}</div>
+        </div>
+      `
+
+      // Simpan artikel ke localStorage dan buka halaman detail saat diklik
+      card.addEventListener("click", () => {
+        localStorage.setItem("artikelDipilih", JSON.stringify(article))
+        window.location.href = "detail_artikel.html"
+      })
+
+      container.appendChild(card)
+    })
+  } else {
+    container.innerHTML = "<p>Tidak ada artikel untuk ditampilkan.</p>"
+  }
+})

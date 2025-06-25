@@ -153,18 +153,31 @@ function filterOrders(status) {
 }
 
 function searchOrders() {
-  const searchTerm = document.getElementById("order-search").value.toLowerCase()
+  const searchTerm = document.getElementById("order-search").value.toLowerCase().trim()
   const orders = JSON.parse(localStorage.getItem("orderHistory")) || sampleOrders
 
+  if (searchTerm === "") {
+    displayOrders(orders)
+    return
+  }
+
   const filteredOrders = orders.filter((order) => {
-    return (
-      order.id.toLowerCase().includes(searchTerm) ||
-      order.items.some((item) => item.nama.toLowerCase().includes(searchTerm))
+    const idMatch = order.id.toLowerCase().includes(searchTerm)
+    const itemMatch = order.items.some((item) =>
+      item.nama.toLowerCase().includes(searchTerm)
     )
+    return idMatch || itemMatch
   })
 
+  currentPage = 1 
   displayOrders(filteredOrders)
 }
+
+function clearSearch() {
+  document.getElementById("order-search").value = ""
+  searchOrders()
+}
+
 
 function viewOrderDetail(orderId) {
   const orders = JSON.parse(localStorage.getItem("orderHistory")) || sampleOrders

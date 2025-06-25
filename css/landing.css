@@ -286,7 +286,7 @@ body {
 
 /* Features Section */
 .features {
-  padding: 100px 0;
+  padding: 100px 0 60px;
   background: linear-gradient(135deg, #f8fafc, #f1f5f9);
   position: relative;
 }
@@ -313,7 +313,6 @@ body {
 .features-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2.5rem;
 }
 
 .feature-card {
@@ -363,7 +362,6 @@ body {
 .feature-card h3 {
   font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 1rem;
   color: #111827;
 }
 
@@ -376,7 +374,7 @@ body {
 /* Sections */
 .popular-products,
 .articles-preview {
-  padding: 100px 0;
+  padding: 60px 0 100px;
   position: relative;
 }
 
@@ -694,7 +692,6 @@ body {
   }
 }
 
-/* Container grid produk */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -702,7 +699,6 @@ body {
   margin-top: 1.5rem;
 }
 
-/* Card produk */
 .produk-card {
   background-color: #ffffff;
   border-radius: 12px;
@@ -718,7 +714,6 @@ body {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
-/* Gambar produk */
 .produk-card img {
   width: 100%;
   height: 140px;
@@ -727,25 +722,68 @@ body {
   margin-bottom: 0.75rem;
 }
 
-/* Nama produk */
 .produk-card h4 {
   font-size: 1rem;
   color: #111827;
   margin-bottom: 0.5rem;
-  min-height: 40px; /* menjaga tinggi tetap untuk card yang lebih rapi */
+  min-height: 40px; 
 }
 
-/* Harga produk */
 .product-price {
   font-weight: 600;
   color: #16a34a;
   font-size: 0.95rem;
 }
 
-/* Harga coret (jika ada diskon) */
 .harga-diskon {
   text-decoration: line-through;
   color: #9ca3af;
   font-size: 0.85rem;
   margin-bottom: 4px;
+}
+
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.article-card {
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.article-card:hover {
+  transform: translateY(-4px);
+}
+
+.article-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.article-content {
+  padding: 1rem;
+}
+
+.article-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+}
+
+.article-description {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.article-meta {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 0.5rem;
 }

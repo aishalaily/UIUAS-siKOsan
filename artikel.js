@@ -341,8 +341,6 @@ const articles = [
     <p>Kesehatan mental sama pentingnya dengan fisik. Jangan abaikan, ya. Jadi anak kos itu berat, tapi kamu nggak sendiri kok!</p>
   `
 },
-
-  
 ]
 
 const container = document.getElementById("articleGrid")
@@ -368,8 +366,6 @@ articles.forEach((article) => {
   container.appendChild(card)
 })
 
-
 document.addEventListener("DOMContentLoaded", () => {
   updateCartCount()
 })
-

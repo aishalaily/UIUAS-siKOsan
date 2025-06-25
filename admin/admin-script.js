@@ -1,4 +1,3 @@
-// Admin Global Variables
 let adminUsers = [];
 let adminArticles = [];
 let adminProducts = [];
@@ -7,38 +6,24 @@ let currentPage = 1;
 let itemsPerPage = 10;
 let currentEditId = null;
 
-// Sample Admin Data
 const sampleUsers = [
     {
         id: 1,
-        name: "John Doe",
-        email: "john@example.com",
-        phone: "081234567890",
-        role: "customer",
+        name: "Aisha",
+        email: "aisha@siKOsan.com",
+        phone: "083830912273",
+        role: "admin",
         status: "active",
         joinDate: "2024-01-15",
         lastLogin: "2024-01-20",
-        totalOrders: 5,
-        address: "Jl. Sudirman No. 123",
+        totalOrders: 0,
+        address: "Kantor Pusat",
         city: "Jakarta"
     },
     {
         id: 2,
-        name: "Jane Smith",
-        email: "jane@example.com",
-        phone: "081234567891",
-        role: "customer",
-        status: "active",
-        joinDate: "2024-01-10",
-        lastLogin: "2024-01-19",
-        totalOrders: 3,
-        address: "Jl. Thamrin No. 456",
-        city: "Jakarta"
-    },
-    {
-        id: 3,
         name: "Admin User",
-        email: "admin@koshelper.com",
+        email: "admin@siKOsan.com",
         phone: "081234567892",
         role: "admin",
         status: "active",
@@ -50,14 +35,13 @@ const sampleUsers = [
     }
 ];
 
-// Sample Data for Articles, Products and Orders
 const articles = [
     {
         id: 1,
         title: "Cara Memilih Sabun Mandi yang Tepat",
         category: "Mandi",
         excerpt: "Tips memilih sabun mandi yang sesuai dengan jenis kulit Anda.",
-        image: "/images/artikel1.jpg",
+        image: "https://i.pinimg.com/736x/c2/2f/c6/c22fc62b40b868dd2b9dbe421f1d61bc.jpg",
         readTime: "5 min",
         status: "published",
         content: "Ini adalah contoh konten artikel.",
@@ -69,7 +53,7 @@ const articles = [
         title: "Tips Mencuci Pakaian Agar Tidak Luntur",
         category: "Cuci",
         excerpt: "Panduan lengkap mencuci pakaian berwarna agar tetap cerah.",
-        image: "/images/artikel2.jpg",
+        image: "https://i.pinimg.com/736x/ab/10/1c/ab101c8938998652b296fcbcd004bce0.jpg",
         readTime: "7 min",
         status: "draft",
         content: "Ini adalah contoh konten artikel.",
@@ -148,7 +132,6 @@ const orders = [
     }
 ];
 
-// Initialize Admin Panel
 document.addEventListener('DOMContentLoaded', function() {
     initializeAdminData();
     loadCurrentPage();
@@ -156,13 +139,11 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initializeAdminData() {
-    // Load data from localStorage or use sample data
     adminUsers = JSON.parse(localStorage.getItem('adminUsers')) || sampleUsers;
     adminArticles = JSON.parse(localStorage.getItem('adminArticles')) || articles;
     adminProducts = JSON.parse(localStorage.getItem('adminProducts')) || products;
     adminTransactions = JSON.parse(localStorage.getItem('adminTransactions')) || orders;
     
-    // Save to localStorage if not exists
     if (!localStorage.getItem('adminUsers')) {
         localStorage.setItem('adminUsers', JSON.stringify(adminUsers));
     }
@@ -200,7 +181,6 @@ function loadCurrentPage() {
 }
 
 function setupAdminEventListeners() {
-    // Mobile sidebar toggle
     const hamburger = document.querySelector('.hamburger');
     const sidebar = document.querySelector('.admin-sidebar');
     
@@ -211,7 +191,6 @@ function setupAdminEventListeners() {
     }
 }
 
-// Dashboard Functions
 function loadDashboard() {
     updateDashboardStats();
     loadRecentOrders();
@@ -220,12 +199,10 @@ function loadDashboard() {
 }
 
 function updateDashboardStats() {
-    // Update stats cards
     document.getElementById('total-orders').textContent = adminTransactions.length;
     document.getElementById('total-products').textContent = adminProducts.length;
     document.getElementById('total-users').textContent = adminUsers.filter(u => u.role === 'customer').length;
     
-    // Calculate total revenue
     const totalRevenue = adminTransactions.reduce((sum, order) => sum + order.total, 0);
     document.getElementById('total-revenue').textContent = `Rp ${totalRevenue.toLocaleString()}`;
 }
@@ -263,7 +240,6 @@ function loadRecentArticles() {
 }
 
 function initializeCharts() {
-    // Sales Chart
     const salesCtx = document.getElementById('salesChart');
     if (salesCtx) {
         new Chart(salesCtx, {
@@ -289,7 +265,6 @@ function initializeCharts() {
         });
     }
     
-    // Category Chart
     const categoryCtx = document.getElementById('categoryChart');
     if (categoryCtx) {
         new Chart(categoryCtx, {
@@ -313,7 +288,6 @@ function initializeCharts() {
     }
 }
 
-// Articles Admin Functions
 function loadArticlesAdmin() {
     displayArticlesTable();
     setupArticleEventListeners();
@@ -353,13 +327,11 @@ function displayArticlesTable() {
 }
 
 function setupArticleEventListeners() {
-    // Article form submission
     const articleForm = document.getElementById('article-form');
     if (articleForm) {
         articleForm.addEventListener('submit', handleArticleSubmit);
     }
     
-    // Image preview
     const imageInput = document.getElementById('article-image');
     if (imageInput) {
         imageInput.addEventListener('input', previewArticleImage);
@@ -407,11 +379,9 @@ function handleArticleSubmit(e) {
     };
     
     if (currentEditId) {
-        // Update existing article
         const index = adminArticles.findIndex(a => a.id === currentEditId);
         adminArticles[index] = { ...adminArticles[index], ...formData };
     } else {
-        // Add new article
         const newArticle = {
             id: Date.now(),
             ...formData,
@@ -450,7 +420,6 @@ function previewArticleImage() {
     }
 }
 
-// Products Admin Functions
 function loadProductsAdmin() {
     displayProductsTable();
     setupProductEventListeners();
@@ -615,7 +584,6 @@ function removeSpecification(button) {
     button.parentElement.remove();
 }
 
-// Users Admin Functions
 function loadUsersAdmin() {
     updateUserStats();
     displayUsersTable();
@@ -630,7 +598,7 @@ function updateUserStats() {
     document.getElementById('total-users-count').textContent = totalUsers;
     document.getElementById('active-users-count').textContent = activeUsers;
     document.getElementById('admin-users-count').textContent = adminUsersCount;
-    document.getElementById('new-users-count').textContent = '5'; // Mock data
+    document.getElementById('new-users-count').textContent = '5'; 
 }
 
 function displayUsersTable() {
@@ -755,7 +723,6 @@ function closeUserModal() {
     document.getElementById('user-modal').classList.remove('active');
 }
 
-// Transactions Admin Functions
 function loadTransactionsAdmin() {
     updateTransactionStats();
     displayTransactionsTable();
@@ -938,7 +905,6 @@ function closeUpdateStatusModal() {
     document.getElementById('update-status-modal').classList.remove('active');
 }
 
-// Utility Functions
 function updatePagination(type) {
     const container = document.getElementById(`${type}-pagination`);
     if (!container) return;
@@ -956,15 +922,12 @@ function updatePagination(type) {
     
     let paginationHTML = '';
     
-    // Previous button
     paginationHTML += `<button ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(${currentPage - 1}, '${type}')">Previous</button>`;
     
-    // Page numbers
     for (let i = 1; i <= totalPages; i++) {
         paginationHTML += `<button class="${i === currentPage ? 'active' : ''}" onclick="changePage(${i}, '${type}')">${i}</button>`;
     }
     
-    // Next button
     paginationHTML += `<button ${currentPage === totalPages ? 'disabled' : ''} onclick="changePage(${currentPage + 1}, '${type}')">Next</button>`;
     
     container.innerHTML = paginationHTML;
@@ -982,7 +945,6 @@ function changePage(page, type) {
 }
 
 function showNotification(message, type = 'info') {
-    // Create notification element
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
     notification.innerHTML = `
@@ -991,10 +953,8 @@ function showNotification(message, type = 'info') {
         <button onclick="this.parentElement.remove()">&times;</button>
     `;
     
-    // Add to page
     document.body.appendChild(notification);
     
-    // Auto remove after 5 seconds
     setTimeout(() => {
         if (notification.parentElement) {
             notification.remove();
@@ -1016,14 +976,12 @@ function generateReport() {
     showNotification('Fitur generate report sedang dalam pengembangan', 'info');
 }
 
-// Search and Filter Functions
 function searchArticles() {
     const searchTerm = document.getElementById('article-search').value.toLowerCase();
     const filteredArticles = adminArticles.filter(article => 
         article.title.toLowerCase().includes(searchTerm) ||
         article.excerpt.toLowerCase().includes(searchTerm)
     );
-    // Update display with filtered results
     displayFilteredArticles(filteredArticles);
 }
 
@@ -1055,7 +1013,6 @@ function searchTransactions() {
     displayFilteredTransactions(filteredTransactions);
 }
 
-// Bulk Actions
 function toggleSelectAll(type) {
     const selectAllCheckbox = document.getElementById(`select-all-${type}`);
     const checkboxes = document.querySelectorAll(`.${type.slice(0, -1)}-checkbox`);
@@ -1080,7 +1037,6 @@ function updateBulkActions(type) {
     }
 }
 
-// Add event listeners for checkboxes
 document.addEventListener('change', function(e) {
     if (e.target.classList.contains('article-checkbox')) {
         updateBulkActions('articles');
@@ -1093,7 +1049,6 @@ document.addEventListener('change', function(e) {
     }
 });
 
-// Display Filtered Data
 function displayFilteredArticles(filteredArticles) {
     const container = document.getElementById('articles-table-body');
     if (!container) return;
@@ -1215,9 +1170,7 @@ function displayFilteredTransactions(filteredTransactions) {
     }).join('');
 }
 
-// Helper Functions
 function getCategoryName(categoryId) {
-    // Replace with actual category data fetching logic if needed
     return categoryId;
 }
 
@@ -1242,7 +1195,7 @@ function formatDate(dateString) {
 
 function loadProductSpecifications(specifications) {
     const container = document.getElementById('specifications-container');
-    container.innerHTML = ''; // Clear existing specifications
+    container.innerHTML = ''; 
 
     for (const name in specifications) {
         if (specifications.hasOwnProperty(name)) {

@@ -11,7 +11,6 @@
   <!-- Navbar -->
   <header class="navbar">
     <div class="nav-container">
-      <button onclick="goBack()" class="back-button">Kembali</button>
       <div class="nav-logo">siKOsan</div>
       <ul class="nav-menu">
         <li><a href="landing.html">Beranda</a></li>
@@ -44,7 +43,7 @@
       <!-- Search Bar -->
       <div class="search-section">
         <div class="search-bar">
-          <input type="text" id="order-search" placeholder="Cari berdasarkan ID pesanan atau nama produk...">
+          <input type="text" id="order-search" placeholder="Cari berdasarkan ID pesanan atau nama produk..." oninput="searchOrders()">
           <button onclick="searchOrders()"><i class="fas fa-search"></i></button>
         </div>
       </div>
