@@ -18,7 +18,7 @@ body {
   padding: 0 20px;
 }
 
-/* Navbar - Same as landing */
+/* Navbar - Same as index */
 .navbar {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
@@ -574,7 +574,7 @@ body {
   gap: 1.5rem;
 }
 
-/* Footer - Same as landing */
+/* Footer - Same as index */
 .footer {
   background: linear-gradient(135deg, #111827, #1f2937);
   color: white;
