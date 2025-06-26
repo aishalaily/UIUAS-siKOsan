@@ -84,3 +84,12 @@ function updateCartCount() {
   const totalItems = keranjang.reduce((sum, item) => sum + item.qty, 0)
   document.getElementById("cart-count").textContent = totalItems
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  const hamburger = document.querySelector(".hamburger");
+  const navMenu = document.querySelector(".nav-menu");
+
+  hamburger.addEventListener("click", function () {
+    navMenu.classList.toggle("active");
+  });
+});

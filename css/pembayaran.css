@@ -641,3 +641,26 @@ body {
     width: 100%;
   }
 }
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px; 
+    right: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    z-index: 1000;
+  }
+
+  .nav-menu.active {
+    display: flex;
+  }
+}
